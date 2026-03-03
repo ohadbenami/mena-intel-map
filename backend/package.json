@@ -1,0 +1,18 @@
+{
+  "name": "mena-intel-backend",
+  "version": "2.0.0",
+  "description": "MENA Intel Map — Backend services (Telegram OSINT, AI Brief, Push)",
+  "type": "module",
+  "scripts": {
+    "telegram:login": "node telegram-login.mjs",
+    "telegram:scrape": "node telegram-scraper.mjs",
+    "brief:generate": "node daily-brief.mjs",
+    "start": "node server.mjs"
+  },
+  "dependencies": {
+    "telegram": "^2.26.8",
+    "input": "^1.0.1",
+    "@anthropic-ai/sdk": "^0.39.0",
+    "dotenv": "^16.4.7"
+  }
+}

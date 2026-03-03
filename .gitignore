@@ -1,0 +1,5 @@
+.env
+backend/node_modules/
+backend/session.json
+*.session
+telegram-feed.json

@@ -259,6 +259,7 @@ font-size:11px;cursor:pointer;transition:transform .15s;text-shadow:0 0 3px rgba
   <div id="search-box"><input type="text" id="search-input" placeholder="🔍 Search..."></div>
   <div class="sb-tabs">
     <div class="sb-tab active" data-tab="layers">Layers</div>
+    <div class="sb-tab" data-tab="brief">Brief</div>
     <div class="sb-tab" data-tab="feed">Feed</div>
     <div class="sb-tab" data-tab="alerts">Alerts</div>
     <div class="sb-tab" data-tab="flights">Flights</div>
@@ -280,6 +281,9 @@ font-size:11px;cursor:pointer;transition:transform .15s;text-shadow:0 0 3px rgba
       </div>
     </div>
   </div>
+  <div class="sb-panel" data-panel="brief"><div id="brief-content" style="padding:10px;font-size:11px;line-height:1.5">
+    <div style="text-align:center;padding:20px;color:var(--dim)"><i class="fas fa-robot"></i> Loading AI Brief...</div>
+  </div></div>
   <div class="sb-panel" data-panel="feed"><div id="news-feed" style="padding:6px 10px"><div style="text-align:center;padding:20px;color:var(--dim);font-size:11px"><i class="fas fa-spinner fa-spin"></i> Loading...</div></div></div>
   <div class="sb-panel" data-panel="alerts"><div id="alerts-feed" style="padding:6px 10px"><div class="no-alerts">🛡️ No active alerts<br><span style="font-size:9px;margin-top:4px;display:block">Monitoring Pikud HaOref...</span></div></div></div>
   <div class="sb-panel" data-panel="flights"><div id="flights-feed" style="padding:6px 10px"><div style="text-align:center;padding:20px;color:var(--dim);font-size:11px"><i class="fas fa-spinner fa-spin"></i> Scanning ADS-B...</div></div></div>
@@ -850,12 +854,80 @@ navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'text/j
 })();
 
 // ================================================================
+//  DAILY INTELLIGENCE BRIEF
+// ================================================================
+async function loadBrief(){
+const bd=document.getElementById('brief-content');
+try{
+const res=await fetch('brief.json');
+if(!res.ok)throw new Error('No brief');
+const b=await res.json();
+const tc=b.threat_level==='CRITICAL'?'var(--red)':b.threat_level==='HIGH'?'var(--orange)':'var(--gold)';
+document.getElementById('threat-level').textContent=b.threat_level;
+let html=`<div style="border:1px solid ${tc};border-radius:6px;padding:8px;margin-bottom:8px;background:${tc}11">
+<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:${tc};margin-bottom:4px">⚡ THREAT: ${b.threat_level}</div>
+<div style="font-size:11px;line-height:1.4">${b.summary}</div></div>`;
+if(b.key_developments){html+=`<div style="font-size:9px;text-transform:uppercase;color:var(--accent);letter-spacing:1px;margin:8px 0 4px">KEY DEVELOPMENTS</div>`;
+b.key_developments.forEach(d=>{const sc=d.severity==='critical'?'var(--red)':d.severity==='high'?'var(--orange)':'var(--dim)';
+html+=`<div style="padding:5px 0;border-bottom:1px solid var(--border)"><div style="font-size:11px;font-weight:600;color:${sc}">${d.title}</div>
+<div style="font-size:10px;color:var(--dim);margin-top:2px">${d.detail}</div>
+<div style="font-size:9px;color:var(--blue);margin-top:1px">📍 ${d.region}</div></div>`;});}
+if(b.watch_items){html+=`<div style="font-size:9px;text-transform:uppercase;color:var(--gold);letter-spacing:1px;margin:8px 0 4px">👁 WATCH LIST</div>`;
+b.watch_items.forEach(w=>{html+=`<div style="font-size:10px;padding:3px 0;color:var(--dim)">• ${w}</div>`;});}
+if(b.iran_focus){html+=`<div style="font-size:9px;text-transform:uppercase;color:var(--red);letter-spacing:1px;margin:8px 0 4px">🇮🇷 IRAN FOCUS</div>`;
+html+=`<div style="font-size:10px;color:var(--dim);margin:4px 0"><b style="color:var(--text)">Nuclear:</b> ${b.iran_focus.nuclear_status}</div>`;
+html+=`<div style="font-size:10px;color:var(--dim);margin:4px 0"><b style="color:var(--text)">Military:</b> ${b.iran_focus.military_activity}</div>`;
+html+=`<div style="font-size:10px;color:var(--dim);margin:4px 0"><b style="color:var(--text)">Proxies:</b> ${b.iran_focus.proxy_activity}</div>`;}
+if(b.hotspots){html+=`<div style="font-size:9px;text-transform:uppercase;color:var(--red);letter-spacing:1px;margin:8px 0 4px">🔥 HOTSPOTS</div>`;
+b.hotspots.forEach(h=>{const tc=h.trend==='escalating'?'var(--red)':h.trend==='de-escalating'?'var(--green)':'var(--dim)';
+html+=`<div style="font-size:10px;padding:2px 0"><span style="color:var(--text)">${h.name}</span> <span style="color:var(--dim)">(${h.events})</span> <span style="color:${tc};font-size:9px">▸ ${h.trend}</span></div>`;});}
+if(b.analyst_note){html+=`<div style="font-size:9px;text-transform:uppercase;color:var(--accent);letter-spacing:1px;margin:8px 0 4px">📝 ANALYST NOTE</div>`;
+html+=`<div style="font-size:10px;color:var(--dim);font-style:italic;border-left:2px solid var(--accent);padding-left:8px">${b.analyst_note}</div>`;}
+html+=`<div style="text-align:center;margin-top:10px;font-size:8px;color:var(--dim)">Generated: ${new Date(b.generated_at).toLocaleString('en-GB')} • ${b.source||'Claude AI'}</div>`;
+bd.innerHTML=html;
+}catch(e){bd.innerHTML='<div style="text-align:center;padding:20px;color:var(--dim);font-size:11px">📋 Run <code>npm run brief:generate</code> to create brief</div>';}}
+
+// ================================================================
+//  TELEGRAM OSINT FEED
+// ================================================================
+async function loadTelegram(){
+try{
+const res=await fetch('telegram-feed.json');
+if(!res.ok)return;
+const data=await res.json();
+if(!data.events||!data.events.length)return;
+// Add geo-tagged events to map
+const tgLayer=LG.gdelt;// reuse gdelt layer for now
+data.events.filter(e=>e.coords).forEach(e=>{
+const sc=e.severity==='critical'?'#ff4444':e.severity==='high'?'#ff8800':e.severity==='warning'?'#ffcc00':'#00ff88';
+const m=L.circleMarker(e.coords,{radius:6,color:sc,fillColor:sc,fillOpacity:.5,weight:1.5});
+m.bindPopup(`<div class="ptitle" style="color:${sc}">📡 ${e.channel}</div>
+<div class="pdet">${e.text.substring(0,200)}...</div>
+<div class="pdet" style="color:var(--dim);font-size:9px">${e.date?new Date(e.date).toLocaleString('en-GB'):''}</div>
+<div class="pdet" style="font-size:9px">👁 ${e.views||0} views • ↗️ ${e.forwards||0} fwd</div>`);
+tgLayer.addLayer(m);});
+// Add to news feed
+const feedDiv=document.getElementById('news-feed');
+const tgSection=document.createElement('div');
+tgSection.innerHTML=`<div style="font-size:9px;text-transform:uppercase;color:var(--purple);letter-spacing:1px;padding:6px 0;border-bottom:1px solid var(--border)">📡 TELEGRAM OSINT (${data.total_events} events)</div>`;
+data.events.slice(0,15).forEach(e=>{
+const sc=e.severity==='critical'?'var(--red)':e.severity==='high'?'var(--orange)':'var(--dim)';
+const d=document.createElement('div');d.className='news-item';
+d.innerHTML=`<div class="news-title" style="border-left:2px solid ${sc};padding-left:6px">${e.text.substring(0,120)}...</div>
+<div class="news-meta"><span class="news-src">${e.channel}</span><span>${e.location?'📍'+e.location:''} ${e.date?timeAgo(new Date(e.date)):''}</span></div>`;
+tgSection.appendChild(d);});
+feedDiv.prepend(tgSection);
+}catch(e){/* No telegram feed yet */}}
+
+// ================================================================
 //  INIT
 // ================================================================
 updateClocks();setInterval(updateClocks,10000);
 loadGDELT();setInterval(loadGDELT,300000);
 loadADSB();setInterval(loadADSB,15000);
 loadAlerts();setInterval(loadAlerts,5000);
+loadBrief();
+loadTelegram();
 
 // Splash & intro
 setTimeout(()=>{document.getElementById('splash').classList.add('gone');
