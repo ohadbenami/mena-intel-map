@@ -3,33 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MENA OSINT Intelligence Map — V2</title>
+<title>MENA OSINT Intelligence Map — V3</title>
 <meta name="description" content="Real-time Middle East military intelligence map with missile tracking, flight radar, and OSINT feeds">
 <link rel="manifest" id="pwa-manifest">
 <meta name="theme-color" content="#00ff88">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{
---bg:#0a0e17;--panel:#111827;--panel2:#0f172a;--border:#1e293b;--text:#e0e0e0;--dim:#6b7280;
+:root{--bg:#0a0e17;--panel:#111827;--panel2:#0f172a;--border:#1e293b;--text:#e0e0e0;--dim:#6b7280;
 --accent:#00ff88;--red:#ff4444;--orange:#ff8800;--blue:#00aaff;--cyan:#00ccff;
---purple:#cc00ff;--gold:#ffcc00;--magenta:#ff44aa;--green:#22c55e;--white:#f8fafc;
-}
-body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);overflow:hidden;height:100vh}
-#map{position:absolute;top:0;left:0;width:100%;height:100%;z-index:1}
+--purple:#cc00ff;--gold:#ffcc00;--magenta:#ff44aa;--green:#22c55e;--white:#f8fafc}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow:hidden;height:100vh}
+#map{position:absolute;inset:0;z-index:1}
 button{font-family:inherit;cursor:pointer}
 
-/* ===== HUD TOP BAR ===== */
+/* HUD */
 #hud{position:fixed;top:0;left:0;right:0;height:44px;background:linear-gradient(180deg,rgba(10,14,23,.97),rgba(10,14,23,.85));
 backdrop-filter:blur(12px);z-index:1001;display:flex;align-items:center;justify-content:space-between;padding:0 14px;border-bottom:1px solid var(--border)}
-.logo{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:1.5px;color:var(--accent);user-select:none}
-.logo i{font-size:16px}
-.logo .v{font-size:9px;color:var(--dim);font-weight:400;margin-right:4px}
+.logo{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;letter-spacing:1.5px;color:var(--accent)}
+.logo .v{font-size:9px;color:var(--dim);font-weight:400}
 .clocks{display:flex;gap:14px;font-size:11px;font-family:'Courier New',monospace}
-.clock-item{display:flex;flex-direction:column;align-items:center;gap:0}
+.clock-item{display:flex;flex-direction:column;align-items:center}
 .clock-label{color:var(--dim);font-size:8px;text-transform:uppercase;letter-spacing:.5px}
 .clock-time{color:var(--accent);font-size:11px;font-weight:700}
 .status-bar{display:flex;gap:10px;align-items:center}
@@ -38,16 +34,14 @@ backdrop-filter:blur(12px);z-index:1001;display:flex;align-items:center;justify-
 .threat-badge{padding:2px 10px;border-radius:10px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px}
 .threat-high{background:rgba(255,68,68,.15);color:var(--red);border:1px solid rgba(255,68,68,.4)}
 
-/* ===== SIDEBAR (RIGHT) ===== */
+/* SIDEBAR */
 #sidebar{position:fixed;top:44px;right:0;width:300px;height:calc(100vh - 44px);background:rgba(15,23,42,.94);
 backdrop-filter:blur(14px);z-index:1000;border-left:1px solid var(--border);display:flex;flex-direction:column;transition:transform .3s}
 #sidebar.collapsed{transform:translateX(300px)}
 #sidebar-toggle{position:fixed;top:52px;right:300px;z-index:1001;background:var(--panel);border:1px solid var(--border);
-border-right:none;color:var(--accent);width:28px;height:28px;border-radius:4px 0 0 4px;cursor:pointer;
+border-right:none;color:var(--accent);width:28px;height:28px;border-radius:4px 0 0 4px;
 display:flex;align-items:center;justify-content:center;font-size:12px;transition:right .3s}
 #sidebar-toggle.collapsed{right:0}
-.sb-section{padding:10px 12px;border-bottom:1px solid var(--border)}
-.sb-section h3{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);margin-bottom:6px;display:flex;align-items:center;gap:5px}
 .sb-tabs{display:flex;border-bottom:1px solid var(--border)}
 .sb-tab{flex:1;padding:8px 4px;text-align:center;font-size:10px;text-transform:uppercase;letter-spacing:1px;
 color:var(--dim);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
@@ -57,6 +51,8 @@ color:var(--dim);cursor:pointer;border-bottom:2px solid transparent;transition:a
 .sb-panel.active{display:flex;flex-direction:column}
 .sb-panel::-webkit-scrollbar{width:3px}
 .sb-panel::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.sb-section{padding:10px 12px;border-bottom:1px solid var(--border)}
+.sb-section h3{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);margin-bottom:6px;display:flex;align-items:center;gap:5px}
 
 /* Layer Controls */
 .layer-toggle{display:flex;align-items:center;gap:6px;padding:4px 6px;border-radius:4px;cursor:pointer;font-size:11px;transition:background .15s}
@@ -68,21 +64,20 @@ color:var(--dim);cursor:pointer;border-bottom:2px solid transparent;transition:a
 .ldot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .lcount{margin-right:auto;color:var(--dim);font-size:9px}
 
-/* News Feed */
+/* News */
 .news-item{padding:7px 10px;border-radius:5px;margin:2px 0;background:rgba(255,255,255,.02);cursor:pointer;transition:background .15s;border:1px solid transparent}
 .news-item:hover{background:rgba(255,255,255,.05);border-color:var(--border)}
 .news-title{font-size:11px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .news-meta{font-size:9px;color:var(--dim);display:flex;justify-content:space-between;margin-top:3px}
 .news-src{color:var(--blue)}
-
-/* Alert Feed */
 .alert-item{padding:6px 10px;border-radius:5px;margin:2px 0;border:1px solid rgba(255,68,68,.3);background:rgba(255,68,68,.05);font-size:11px}
 .alert-item .alert-type{color:var(--red);font-weight:700;font-size:10px}
-.alert-item .alert-area{margin-top:2px}
-.alert-item .alert-time{color:var(--dim);font-size:9px;margin-top:2px}
 .no-alerts{text-align:center;padding:30px 10px;color:var(--dim);font-size:11px}
+#search-box{padding:8px 10px}
+#search-input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:5px;padding:6px 8px;color:var(--text);font-size:11px;outline:none}
+#search-input:focus{border-color:var(--accent)}
 
-/* ===== LEFT PANEL — ATTACK REPLAY ===== */
+/* ATTACK PANEL */
 #attack-panel{position:fixed;top:44px;left:0;width:280px;height:calc(100vh - 44px);background:rgba(15,23,42,.94);
 backdrop-filter:blur(14px);z-index:999;border-right:1px solid var(--border);display:flex;flex-direction:column;
 transform:translateX(-280px);transition:transform .3s}
@@ -94,8 +89,7 @@ display:flex;align-items:center;justify-content:center;font-size:13px;transition
 #attack-panel h3{padding:12px;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--orange);
 border-bottom:1px solid var(--border);display:flex;align-items:center;gap:5px}
 .attack-list{flex:1;overflow-y:auto;padding:8px}
-.attack-card{padding:10px;border-radius:6px;margin-bottom:6px;background:rgba(255,136,0,.04);border:1px solid rgba(255,136,0,.15);
-cursor:pointer;transition:all .2s}
+.attack-card{padding:10px;border-radius:6px;margin-bottom:6px;background:rgba(255,136,0,.04);border:1px solid rgba(255,136,0,.15);cursor:pointer;transition:all .2s}
 .attack-card:hover,.attack-card.active{background:rgba(255,136,0,.1);border-color:rgba(255,136,0,.4)}
 .attack-date{font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:1px;font-family:'Courier New',monospace}
 .attack-name{font-size:12px;font-weight:600;margin:3px 0;color:var(--white)}
@@ -105,64 +99,36 @@ cursor:pointer;transition:all .2s}
 #replay-controls{padding:10px 12px;border-top:1px solid var(--border);display:none}
 #replay-controls.active{display:flex;align-items:center;gap:8px}
 .replay-btn{background:var(--orange);color:var(--bg);border:none;border-radius:4px;padding:6px 14px;font-size:11px;font-weight:600}
-.replay-btn:hover{filter:brightness(1.2)}
 .replay-btn.stop{background:var(--red)}
 #replay-speed{background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:4px;padding:4px 8px;color:var(--text);font-size:11px}
 #replay-status{font-size:10px;color:var(--dim);margin-right:auto}
 
-/* ===== FLIGHTS PANEL ===== */
-#flights-info{position:fixed;bottom:60px;left:16px;z-index:999;background:rgba(15,23,42,.92);backdrop-filter:blur(10px);
-border:1px solid var(--border);border-radius:8px;padding:10px 14px;max-width:260px;max-height:300px;overflow-y:auto;display:none}
-#flights-info.active{display:block}
-#flights-info h4{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--cyan);margin-bottom:6px}
-.flight-item{display:flex;align-items:center;gap:6px;padding:3px 0;font-size:10px;border-bottom:1px solid rgba(255,255,255,.04)}
-.flight-callsign{font-weight:700;color:var(--cyan);font-family:'Courier New',monospace;width:70px}
-.flight-info{color:var(--dim)}
-.flight-alt{color:var(--gold)}
-
-/* ===== STATS PANEL ===== */
-#stats-panel{position:fixed;bottom:12px;left:12px;z-index:998;display:flex;gap:6px;flex-wrap:wrap}
+/* STATS */
+#stats-panel{position:fixed;bottom:40px;left:12px;z-index:998;display:flex;gap:6px;flex-wrap:wrap}
 .stat-card{background:rgba(15,23,42,.92);backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:6px;padding:6px 12px;min-width:85px}
 .stat-value{font-size:18px;font-weight:700;font-family:'Courier New',monospace}
 .stat-label{font-size:8px;text-transform:uppercase;letter-spacing:.5px;color:var(--dim);margin-top:1px}
 
-/* ===== TIMELINE BAR ===== */
-#timeline-bar{position:fixed;bottom:0;left:0;right:0;height:36px;background:rgba(15,23,42,.95);backdrop-filter:blur(10px);
-border-top:1px solid var(--border);z-index:999;display:none;align-items:center;padding:0 16px;gap:10px}
-#timeline-bar.active{display:flex}
-#timeline-slider{flex:1;accent-color:var(--accent);height:4px}
-#timeline-date{font-family:'Courier New',monospace;font-size:12px;color:var(--accent);min-width:90px}
-.tl-btn{background:none;border:1px solid var(--border);color:var(--accent);border-radius:4px;padding:3px 10px;font-size:11px}
-.tl-btn:hover{background:rgba(0,255,136,.1)}
-
-/* ===== RANGE LEGEND ===== */
-#range-legend{position:fixed;top:52px;left:16px;z-index:998;background:rgba(15,23,42,.92);backdrop-filter:blur(8px);
-border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-size:10px;display:none}
-#range-legend h4{color:var(--orange);margin-bottom:4px;font-size:10px}
-.rng-item{display:flex;align-items:center;gap:6px;margin:2px 0}
-.rng-line{width:18px;height:2px;border-radius:1px}
-
-/* ===== MAP STYLE BUTTONS ===== */
+/* MAP STYLES */
 #map-styles{position:fixed;top:52px;left:50%;transform:translateX(-50%);z-index:998;display:flex;gap:2px;
 background:rgba(15,23,42,.92);backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:6px;padding:3px}
 .style-btn{padding:4px 10px;border-radius:4px;border:none;background:transparent;color:var(--dim);font-size:10px;cursor:pointer;transition:all .15s}
 .style-btn.active{background:var(--accent);color:var(--bg);font-weight:600}
 .style-btn:hover:not(.active){color:var(--text)}
 
-/* ===== SEARCH ===== */
-#search-box{padding:8px 10px}
-#search-input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:5px;padding:6px 8px;color:var(--text);font-size:11px;outline:none}
-#search-input:focus{border-color:var(--accent)}
-#search-input::placeholder{color:var(--dim)}
+/* RANGE LEGEND */
+#range-legend{position:fixed;top:52px;left:16px;z-index:998;background:rgba(15,23,42,.92);backdrop-filter:blur(8px);
+border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-size:10px;display:none}
+#range-legend h4{color:var(--orange);margin-bottom:4px;font-size:10px}
+.rng-item{display:flex;align-items:center;gap:6px;margin:2px 0}
+.rng-line{width:18px;height:2px;border-radius:1px}
 
-/* ===== QUICK NAV ===== */
-.qnav{position:fixed;bottom:48px;right:308px;z-index:998;display:flex;flex-direction:column;gap:3px}
+/* QUICK NAV */
 .qnav-btn{background:rgba(15,23,42,.9);border:1px solid var(--border);border-radius:5px;padding:4px 10px;
-color:var(--dim);font-size:10px;text-align:left;white-space:nowrap;transition:all .15s}
+color:var(--dim);font-size:10px;white-space:nowrap;transition:all .15s}
 .qnav-btn:hover{border-color:var(--accent);color:var(--accent)}
-.qnav-btn i{width:14px;margin-left:4px}
 
-/* ===== LEAFLET OVERRIDES ===== */
+/* Leaflet overrides */
 .leaflet-control-zoom a{background:var(--panel)!important;color:var(--accent)!important;border-color:var(--border)!important}
 .leaflet-popup-content-wrapper{background:var(--panel)!important;color:var(--text)!important;border:1px solid var(--border)!important;border-radius:8px!important;box-shadow:0 8px 32px rgba(0,0,0,.5)!important}
 .leaflet-popup-tip{background:var(--panel)!important}
@@ -172,17 +138,44 @@ color:var(--dim);font-size:10px;text-align:left;white-space:nowrap;transition:al
 .pdet{font-size:10px;color:var(--dim);margin:2px 0}
 .pdet b{color:var(--text)}
 
-/* ===== MARKER STYLES ===== */
+/* ===== PULSING MARKERS ===== */
 .mil-marker{display:flex;align-items:center;justify-content:center;border-radius:50%;border:2px solid;
 font-size:11px;cursor:pointer;transition:transform .15s;text-shadow:0 0 3px rgba(0,0,0,.8)}
 .mil-marker:hover{transform:scale(1.3);z-index:9999!important}
-@keyframes pulse-ring{0%{transform:scale(1);opacity:.5}100%{transform:scale(2.8);opacity:0}}
+@keyframes pulse-ring{0%{transform:scale(1);opacity:.6}100%{transform:scale(2.8);opacity:0}}
+@keyframes pulse-glow{0%,100%{box-shadow:0 0 4px currentColor}50%{box-shadow:0 0 16px currentColor,0 0 30px currentColor}}
+@keyframes pulse-threat{0%,100%{opacity:.3}50%{opacity:.7}}
+@keyframes event-pop{0%{transform:scale(0);opacity:0}60%{transform:scale(1.5);opacity:1}100%{transform:scale(1);opacity:.8}}
 @keyframes impact-flash{0%{opacity:.8;transform:scale(1)}100%{opacity:0;transform:scale(4)}}
-
-/* ===== MISSILE TRAIL ===== */
+@keyframes scroll-ticker{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
+@keyframes beacon{0%{box-shadow:0 0 0 0 rgba(255,68,68,.5)}70%{box-shadow:0 0 0 15px rgba(255,68,68,0)}100%{box-shadow:0 0 0 0 rgba(255,68,68,0)}}
+@keyframes glow-pulse{0%,100%{filter:brightness(1) drop-shadow(0 0 2px currentColor)}50%{filter:brightness(1.5) drop-shadow(0 0 8px currentColor)}}
 .missile-head{filter:drop-shadow(0 0 6px currentColor)}
 
-/* ===== SPLASH ===== */
+/* ===== LIVE TICKER ===== */
+#live-ticker{position:fixed;bottom:0;left:0;right:0;height:32px;background:rgba(10,14,23,.95);border-top:1px solid var(--border);
+z-index:999;display:flex;align-items:center;overflow:hidden}
+#ticker-label{background:var(--red);color:#fff;font-size:9px;font-weight:700;padding:0 10px;height:100%;
+display:flex;align-items:center;letter-spacing:1px;text-transform:uppercase;flex-shrink:0;z-index:1}
+#ticker-content{flex:1;overflow:hidden;position:relative;height:100%;display:flex;align-items:center}
+#ticker-scroll{display:flex;gap:40px;white-space:nowrap;animation:scroll-ticker 60s linear infinite;font-size:11px}
+#ticker-scroll:hover{animation-play-state:paused}
+.ticker-item{display:inline-flex;align-items:center;gap:6px;cursor:pointer;color:var(--dim);transition:color .2s}
+.ticker-item:hover{color:var(--text)}
+.ticker-sev{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+#ticker-count{background:var(--panel);border-left:1px solid var(--border);padding:0 10px;height:100%;
+display:flex;align-items:center;font-size:9px;color:var(--dim);flex-shrink:0}
+
+/* ===== ACTIVE TRAJECTORY LEGEND ===== */
+#traj-legend{position:fixed;bottom:80px;right:310px;z-index:998;background:rgba(15,23,42,.92);backdrop-filter:blur(8px);
+border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-size:10px;max-width:220px}
+#traj-legend h4{color:var(--orange);margin-bottom:4px;font-size:10px;display:flex;align-items:center;gap:4px}
+.traj-row{display:flex;align-items:center;gap:6px;margin:3px 0;cursor:pointer;padding:2px;border-radius:3px;transition:background .15s}
+.traj-row:hover{background:rgba(255,255,255,.05)}
+.traj-line{width:20px;height:0;border-top:2px dashed}
+.traj-int{font-size:9px;margin-left:auto;padding:1px 5px;border-radius:6px}
+
+/* SPLASH */
 #splash{position:fixed;inset:0;z-index:2000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .8s}
 #splash.gone{opacity:0;pointer-events:none}
 #splash h1{font-size:28px;color:var(--accent);letter-spacing:3px;margin-bottom:8px}
@@ -194,27 +187,25 @@ font-size:11px;cursor:pointer;transition:transform .15s;text-shadow:0 0 3px rgba
 @media(max-width:768px){
 #sidebar{width:250px}
 #attack-panel{width:240px}
-#stats-panel{bottom:6px;left:6px}
+#stats-panel{bottom:40px;left:6px}
 .stat-card{min-width:70px;padding:5px 8px}
 .stat-value{font-size:15px}
-.clocks{gap:8px}
 .clock-item{display:none}
 .clock-item:nth-child(-n+3){display:flex}
+#traj-legend{display:none}
 }
 </style>
 </head>
 <body>
 
-<!-- SPLASH SCREEN -->
 <div id="splash">
   <h1><i class="fas fa-satellite-dish"></i> MENA INTEL MAP</h1>
   <p>Loading intelligence layers...</p>
   <div class="loader"><div class="loader-bar"></div></div>
 </div>
 
-<!-- HUD -->
 <div id="hud">
-  <div class="logo"><i class="fas fa-satellite-dish"></i> MENA INTEL MAP <span class="v">V2</span></div>
+  <div class="logo"><i class="fas fa-satellite-dish"></i> MENA INTEL MAP <span class="v">V3</span></div>
   <div class="clocks">
     <div class="clock-item"><span class="clock-label">UTC</span><span class="clock-time" id="ck-utc">--:--</span></div>
     <div class="clock-item"><span class="clock-label">Tehran</span><span class="clock-time" id="ck-teh">--:--</span></div>
@@ -229,7 +220,6 @@ font-size:11px;cursor:pointer;transition:transform .15s;text-shadow:0 0 3px rgba
   </div>
 </div>
 
-<!-- MAP STYLE -->
 <div id="map-styles">
   <button class="style-btn active" data-s="dark">Dark</button>
   <button class="style-btn" data-s="sat">Satellite</button>
@@ -237,10 +227,8 @@ font-size:11px;cursor:pointer;transition:transform .15s;text-shadow:0 0 3px rgba
   <button class="style-btn" data-s="osm">Streets</button>
 </div>
 
-<!-- ATTACK PANEL TOGGLE -->
 <button id="attack-toggle" onclick="toggleAttack()">🚀</button>
 
-<!-- ATTACK REPLAY PANEL (LEFT) -->
 <div id="attack-panel">
   <h3><i class="fas fa-crosshairs"></i> ATTACK REPLAY</h3>
   <div class="attack-list" id="attack-list"></div>
@@ -251,10 +239,8 @@ font-size:11px;cursor:pointer;transition:transform .15s;text-shadow:0 0 3px rgba
   </div>
 </div>
 
-<!-- SIDEBAR TOGGLE -->
 <button id="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-layer-group"></i></button>
 
-<!-- SIDEBAR (RIGHT) -->
 <div id="sidebar">
   <div id="search-box"><input type="text" id="search-input" placeholder="🔍 Search..."></div>
   <div class="sb-tabs">
@@ -281,15 +267,12 @@ font-size:11px;cursor:pointer;transition:transform .15s;text-shadow:0 0 3px rgba
       </div>
     </div>
   </div>
-  <div class="sb-panel" data-panel="brief"><div id="brief-content" style="padding:10px;font-size:11px;line-height:1.5">
-    <div style="text-align:center;padding:20px;color:var(--dim)"><i class="fas fa-robot"></i> Loading AI Brief...</div>
-  </div></div>
+  <div class="sb-panel" data-panel="brief"><div id="brief-content" style="padding:10px;font-size:11px;line-height:1.5"><div style="text-align:center;padding:20px;color:var(--dim)"><i class="fas fa-robot"></i> Loading AI Brief...</div></div></div>
   <div class="sb-panel" data-panel="feed"><div id="news-feed" style="padding:6px 10px"><div style="text-align:center;padding:20px;color:var(--dim);font-size:11px"><i class="fas fa-spinner fa-spin"></i> Loading...</div></div></div>
   <div class="sb-panel" data-panel="alerts"><div id="alerts-feed" style="padding:6px 10px"><div class="no-alerts">🛡️ No active alerts<br><span style="font-size:9px;margin-top:4px;display:block">Monitoring Pikud HaOref...</span></div></div></div>
   <div class="sb-panel" data-panel="flights"><div id="flights-feed" style="padding:6px 10px"><div style="text-align:center;padding:20px;color:var(--dim);font-size:11px"><i class="fas fa-spinner fa-spin"></i> Scanning ADS-B...</div></div></div>
 </div>
 
-<!-- RANGE LEGEND -->
 <div id="range-legend">
   <h4>🎯 Missile Ranges</h4>
   <div class="rng-item"><div class="rng-line" style="background:#ff4444"></div>Shahab-3 — 1,300km</div>
@@ -299,7 +282,6 @@ font-size:11px;cursor:pointer;transition:transform .15s;text-shadow:0 0 3px rgba
   <div class="rng-item"><div class="rng-line" style="background:#cc00ff"></div>Khorramshahr — 3,000km</div>
 </div>
 
-<!-- STATS -->
 <div id="stats-panel">
   <div class="stat-card"><div class="stat-value" style="color:var(--red)" id="st-nuke">6</div><div class="stat-label">Nuclear</div></div>
   <div class="stat-card"><div class="stat-value" style="color:var(--orange)" id="st-miss">8</div><div class="stat-label">Missile</div></div>
@@ -308,15 +290,21 @@ font-size:11px;cursor:pointer;transition:transform .15s;text-shadow:0 0 3px rgba
   <div class="stat-card"><div class="stat-value" style="color:var(--accent)" id="st-events">--</div><div class="stat-label">Events</div></div>
 </div>
 
-<!-- TIMELINE -->
-<div id="timeline-bar">
-  <button class="tl-btn" id="tl-play" onclick="toggleTimeline()">▶</button>
-  <input type="range" id="timeline-slider" min="0" max="100" value="100">
-  <span id="timeline-date">NOW</span>
-  <button class="tl-btn" onclick="document.getElementById('timeline-bar').classList.remove('active')">✕</button>
+<!-- TRAJECTORY LEGEND -->
+<div id="traj-legend">
+  <h4>🚀 Attack Trajectories</h4>
+  <div id="traj-list"></div>
 </div>
 
-<!-- MAP -->
+<!-- LIVE TICKER -->
+<div id="live-ticker">
+  <div id="ticker-label">⚡ LIVE</div>
+  <div id="ticker-content">
+    <div id="ticker-scroll"></div>
+  </div>
+  <div id="ticker-count">--</div>
+</div>
+
 <div id="map"></div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -430,17 +418,16 @@ strikes26:[
 {n:"Natanz (Jun '25)",lat:33.724,lng:51.727,d:"Op Midnight Hammer. B-2s.",dt:"2025-06-22"},
 {n:"Fordow (Jun '25)",lat:34.365,lng:51.215,d:"Sub-launched missiles.",dt:"2025-06-22"},
 {n:"Isfahan (Jun '25)",lat:32.67,lng:51.68,d:"UCF targeted.",dt:"2025-06-22"}
-]
-};
+]};
 
 // ================================================================
-//  HISTORICAL ATTACKS FOR REPLAY
+//  HISTORICAL ATTACKS — TRAJECTORIES + REPLAY
 // ================================================================
 const ATTACKS=[
-{id:"tp1",name:"Operation True Promise I",date:"Apr 13-14, 2024",
-desc:"Iran fires 170 drones, 30 cruise missiles, 120 ballistic missiles at Israel. 99% intercepted by Arrow, Iron Dome, David's Sling + allied forces.",
-stats:{ballistic:120,cruise:30,drone:170,intercepted:"99%"},
-center:[31.5,42],zoom:5,
+{id:"tp1",name:"True Promise I",date:"Apr 13-14, 2024",
+desc:"Iran → Israel. 170 drones, 30 cruise, 120 ballistic. 99% intercepted by Arrow, Iron Dome, David's Sling + allied jets.",
+stats:{ballistic:120,cruise:30,drone:170,intercepted:"99%",intPct:.99},
+clr:"#ff4444",center:[31.5,42],zoom:5,
 salvos:[
   {from:[33.0,52.0],to:[31.21,34.95],type:"ballistic",n:15,delay:0,dur:2500,color:"#ff4444"},
   {from:[33.5,48.4],to:[30.78,34.67],type:"ballistic",n:12,delay:800,dur:2800,color:"#ff4444"},
@@ -450,10 +437,10 @@ salvos:[
   {from:[33.0,52.0],to:[31.5,35.0],type:"drone",n:10,delay:0,dur:8000,color:"#ffcc00"},
   {from:[33.86,35.5],to:[33.0,35.5],type:"drone",n:5,delay:1000,dur:4000,color:"#ffcc00"},
 ]},
-{id:"tp2",name:"Operation True Promise II",date:"Oct 1, 2024",
-desc:"~180 ballistic missiles at Israel. Several penetrate defenses, hit Nevatim & Tel Nof air bases. First confirmed BM impacts on Israeli territory.",
-stats:{ballistic:180,cruise:0,drone:0,intercepted:"~85%"},
-center:[31.5,43],zoom:5,
+{id:"tp2",name:"True Promise II",date:"Oct 1, 2024",
+desc:"~180 ballistic missiles at Israel. Several hit Nevatim & Tel Nof. First BM impacts on Israeli territory.",
+stats:{ballistic:180,cruise:0,drone:0,intercepted:"~85%",intPct:.85},
+clr:"#ff8800",center:[31.5,43],zoom:5,
 salvos:[
   {from:[33.0,52.0],to:[31.21,34.95],type:"ballistic",n:20,delay:0,dur:2200,color:"#ff4444"},
   {from:[33.5,48.4],to:[31.84,34.82],type:"ballistic",n:15,delay:500,dur:2500,color:"#ff4444"},
@@ -462,9 +449,9 @@ salvos:[
   {from:[33.0,52.0],to:[30.78,34.67],type:"ballistic",n:10,delay:2000,dur:2300,color:"#ff4444"},
 ]},
 {id:"mh",name:"Op. Midnight Hammer",date:"Jun 22, 2025",
-desc:"US B-2 stealth bombers & submarine-launched missiles strike Natanz, Fordow, Isfahan nuclear sites.",
-stats:{ballistic:0,cruise:20,drone:0,intercepted:"0%"},
-center:[33.0,51.5],zoom:7,
+desc:"US B-2 stealth + sub-launched cruise missiles strike Natanz, Fordow, Isfahan. No interception.",
+stats:{ballistic:0,cruise:20,drone:0,intercepted:"0%",intPct:0},
+clr:"#00aaff",center:[33.0,51.5],zoom:7,
 salvos:[
   {from:[25.5,57.0],to:[33.72,51.73],type:"cruise",n:8,delay:0,dur:4000,color:"#00aaff"},
   {from:[25.5,57.0],to:[34.37,51.22],type:"cruise",n:8,delay:1500,dur:4500,color:"#00aaff"},
@@ -472,10 +459,10 @@ salvos:[
   {from:[28.0,48.0],to:[33.72,51.73],type:"bomb",n:3,delay:500,dur:3000,color:"#0088ff"},
   {from:[28.0,48.0],to:[34.37,51.22],type:"bomb",n:3,delay:2000,dur:3500,color:"#0088ff"},
 ]},
-{id:"f26",name:"US-Israel Strikes on Iran",date:"Feb 28, 2026",
+{id:"f26",name:"US-Israel Feb 2026",date:"Feb 28, 2026",
 desc:"Coordinated strikes on Tehran, Isfahan, Tabriz military & nuclear infrastructure.",
-stats:{ballistic:0,cruise:40,drone:15,intercepted:"Low"},
-center:[34.0,48.0],zoom:6,
+stats:{ballistic:0,cruise:40,drone:15,intercepted:"Low",intPct:.15},
+clr:"#cc00ff",center:[34.0,48.0],zoom:6,
 salvos:[
   {from:[31.21,34.95],to:[35.69,51.39],type:"cruise",n:10,delay:0,dur:4000,color:"#00aaff"},
   {from:[25.5,57.0],to:[35.69,51.39],type:"cruise",n:10,delay:1000,dur:4500,color:"#00aaff"},
@@ -483,18 +470,18 @@ salvos:[
   {from:[31.21,34.95],to:[38.08,46.29],type:"cruise",n:6,delay:4000,dur:5000,color:"#00aaff"},
   {from:[25.12,51.32],to:[35.69,51.39],type:"cruise",n:6,delay:1500,dur:3800,color:"#00aaff"},
 ]},
-{id:"aa20",name:"Ain al-Asad Strike",date:"Jan 8, 2020",
-desc:"22 ballistic missiles at US base in Iraq. Retaliation for Soleimani assassination. No US fatalities.",
-stats:{ballistic:22,cruise:0,drone:0,intercepted:"0%"},
-center:[33.6,45.0],zoom:7,
+{id:"aa20",name:"Ain al-Asad",date:"Jan 8, 2020",
+desc:"22 BMs at US base in Iraq. Retaliation for Soleimani. No US fatalities.",
+stats:{ballistic:22,cruise:0,drone:0,intercepted:"0%",intPct:0},
+clr:"#ffcc00",center:[33.6,45.0],zoom:7,
 salvos:[
   {from:[34.3,47.1],to:[33.79,42.44],type:"ballistic",n:11,delay:0,dur:1800,color:"#ff4444"},
   {from:[33.5,48.4],to:[33.79,42.44],type:"ballistic",n:11,delay:2000,dur:2200,color:"#ff4444"},
 ]},
-{id:"houthi",name:"Houthi Red Sea Campaign",date:"2024-2026",
-desc:"Ansar Allah anti-shipping & strikes on Israel. Dozens of attacks on commercial vessels.",
-stats:{ballistic:50,cruise:30,drone:100,intercepted:"~60%"},
-center:[18.0,42.0],zoom:5,
+{id:"houthi",name:"Houthi Red Sea",date:"2024-2026",
+desc:"Anti-shipping campaign + Israel strikes. 100+ attacks on vessels.",
+stats:{ballistic:50,cruise:30,drone:100,intercepted:"~60%",intPct:.6},
+clr:"#ff44aa",center:[18.0,42.0],zoom:5,
 salvos:[
   {from:[15.37,44.19],to:[12.58,43.33],type:"cruise",n:5,delay:0,dur:3000,color:"#ff8800"},
   {from:[14.8,42.95],to:[13.5,42.0],type:"drone",n:5,delay:500,dur:4000,color:"#ffcc00"},
@@ -518,13 +505,11 @@ const LAYERS=[
 {id:'conflicts',lbl:'Conflict Zones',ico:'🔥',clr:'#ff3333',src:'conflicts',on:1},
 {id:'ranges',lbl:'Missile Ranges',ico:'🎯',clr:'#ff8800',src:'ranges',on:0},
 {id:'strikes',lbl:'Strikes 25-26',ico:'💥',clr:'#ff0000',src:'strikes26',on:1},
+{id:'trajectories',lbl:'Attack Paths',ico:'➡️',clr:'#ff6600',src:null,on:1},
 {id:'adsb',lbl:'Military Flights',ico:'✈️',clr:'#00ffcc',src:null,on:1},
 {id:'gdelt',lbl:'Live Events',ico:'📡',clr:'#00ff88',src:null,on:1}
 ];
 
-// ================================================================
-//  MILITARY CALLSIGN PATTERNS (ADS-B)
-// ================================================================
 const MIL_CS=[/^RCH/i,/^REACH/i,/^DOOM/i,/^JAKE/i,/^EVAC/i,/^IRON/i,/^VALOR/i,/^NAVY/i,/^MARINER/i,
 /^COBRA/i,/^OLIVE/i,/^FORTE/i,/^HOMER/i,/^KNIFE/i,/^GOLD/i,/^TOPCAT/i,/^HAVOC/i,/^VIPER/i,/^HAWK/i,
 /^NCHO/i,/^WEASEL/i,/^DEATH/i,/^SKULL/i,/^ETHAD/i,/^UAE/i,/^KAF/i,/^QAF/i,/^RSAF/i,/^IAF/i,/^RRR/i,
@@ -547,13 +532,17 @@ document.querySelectorAll('.style-btn').forEach(x=>x.classList.remove('active'))
 Object.values(tiles).forEach(t=>map.removeLayer(t));tiles[b.dataset.s].addTo(map);});
 
 // ================================================================
-//  BUILD LAYERS
+//  BUILD LAYERS — PULSING MARKERS
 // ================================================================
 const LG={},allM=[];
 function mkMarker(it,clr,ico,cat){
 const sz=cat==='nuclear'||cat==='us'?22:18;
-const h=`<div class="mil-marker" style="width:${sz}px;height:${sz}px;background:${clr}22;border-color:${clr};color:${clr};font-size:${sz*.45}px">${ico}</div>`;
-const m=L.marker([it.lat,it.lng],{icon:L.divIcon({html:h,iconSize:[sz,sz],iconAnchor:[sz/2,sz/2],className:''})});
+// Nuclear & strike sites get pulsing ring
+const pulse=cat==='nuclear'||cat==='strikes'?
+  `<div style="position:absolute;inset:-6px;border:2px solid ${clr};border-radius:50%;animation:pulse-ring 2s ease-out infinite;opacity:.5"></div>`:'';
+const glow=cat==='nuclear'?'animation:glow-pulse 3s ease-in-out infinite;':'';
+const h=`<div style="position:relative"><div class="mil-marker" style="width:${sz}px;height:${sz}px;background:${clr}22;border-color:${clr};color:${clr};font-size:${sz*.45}px;${glow}">${ico}</div>${pulse}</div>`;
+const m=L.marker([it.lat,it.lng],{icon:L.divIcon({html:h,iconSize:[sz+12,sz+12],iconAnchor:[(sz+12)/2,(sz+12)/2],className:''})});
 const sc=it.s==='Active'||it.s==='Operational'||it.s==='Deployed'?'#00ff88':it.s==='Damaged'||it.s==='Degraded'?'#ff4444':it.s==='Fortified'||it.s==='Expanding'?'#ffcc00':'#6b7280';
 m.bindPopup(`<div class="ptitle" style="color:${clr}">${ico} ${it.n}</div>
 <div class="pcat" style="background:${clr}22;color:${clr};border:1px solid ${clr}44">${cat}</div>
@@ -566,8 +555,12 @@ return m;}
 LAYERS.forEach(L_=>{
 if(L_.id==='conflicts'){
 const g=L.layerGroup();
-D.conflicts.forEach(z=>{g.addLayer(L.circle([z.lat,z.lng],{radius:z.r,color:z.c,fillColor:z.c,fillOpacity:.12,weight:1,dashArray:'5,5'})
-.bindPopup(`<div class="ptitle" style="color:${z.c}">🔥 ${z.n}</div><div class="pdet">${z.d}</div>`));});
+D.conflicts.forEach(z=>{
+// Pulsing conflict zone
+g.addLayer(L.circle([z.lat,z.lng],{radius:z.r,color:z.c,fillColor:z.c,fillOpacity:.08,weight:1.5,dashArray:'5,5',className:''}));
+// Inner animated pulse
+g.addLayer(L.circle([z.lat,z.lng],{radius:z.r*.6,color:z.c,fillColor:z.c,fillOpacity:.15,weight:0}));
+});
 LG.conflicts=g;if(L_.on)g.addTo(map);
 }else if(L_.id==='ranges'){
 const g=L.layerGroup(),ctr=[33,52];
@@ -576,10 +569,15 @@ D.ranges.forEach(r=>{g.addLayer(L.circle(ctr,{radius:r.r*1000,color:r.c,fillColo
 LG.ranges=g;if(L_.on)g.addTo(map);
 }else if(L_.id==='strikes'){
 const g=L.layerGroup();
-D.strikes26.forEach(s=>{const h=`<div style="position:relative;width:24px;height:24px"><div style="position:absolute;inset:0;background:#ff000033;border:2px solid #ff0000;border-radius:50%;animation:pulse-ring 1.5s ease-out infinite"></div><div style="position:absolute;inset:4px;background:#ff0000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px">💥</div></div>`;
-g.addLayer(L.marker([s.lat,s.lng],{icon:L.divIcon({html:h,iconSize:[24,24],iconAnchor:[12,12],className:''})})
+D.strikes26.forEach(s=>{
+const h=`<div style="position:relative;width:28px;height:28px">
+<div style="position:absolute;inset:0;border:2px solid #ff0000;border-radius:50%;animation:pulse-ring 1.8s ease-out infinite"></div>
+<div style="position:absolute;inset:-4px;border:1px solid #ff000044;border-radius:50%;animation:pulse-ring 2.5s ease-out infinite .5s"></div>
+<div style="position:absolute;inset:4px;background:#ff0000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;animation:beacon 2s infinite">💥</div></div>`;
+g.addLayer(L.marker([s.lat,s.lng],{icon:L.divIcon({html:h,iconSize:[28,28],iconAnchor:[14,14],className:''})})
 .bindPopup(`<div class="ptitle" style="color:#ff4444">💥 ${s.n}</div><div class="pdet">${s.d}</div><div class="pdet"><b>Date:</b> ${s.dt}</div>`));});
 LG.strikes=g;if(L_.on)g.addTo(map);
+}else if(L_.id==='trajectories'){LG.trajectories=L.layerGroup();if(L_.on)LG.trajectories.addTo(map);
 }else if(L_.id==='adsb'){LG.adsb=L.layerGroup();if(L_.on)LG.adsb.addTo(map);
 }else if(L_.id==='gdelt'){LG.gdelt=L.layerGroup();if(L_.on)LG.gdelt.addTo(map);
 }else if(L_.src&&D[L_.src]){
@@ -589,48 +587,115 @@ LG[L_.id]=g;if(L_.on)g.addTo(map);
 }});
 
 // ================================================================
-//  SIDEBAR — LAYER CONTROLS
+//  PERMANENT ATTACK TRAJECTORIES ON MAP
+// ================================================================
+function bezierPts(from,to,type,n){
+const dist=Math.sqrt((to[0]-from[0])**2+(to[1]-from[1])**2);
+const arcH=type==='drone'?dist*.08:type==='cruise'?dist*.15:dist*.25;
+const cp=[(from[0]+to[0])/2+arcH,(from[1]+to[1])/2];
+const pts=[];for(let t=0;t<=1;t+=1/n)pts.push([(1-t)*(1-t)*from[0]+2*(1-t)*t*cp[0]+t*t*to[0],(1-t)*(1-t)*from[1]+2*(1-t)*t*cp[1]+t*t*to[1]]);
+return pts;
+}
+
+function drawTrajectories(){
+const g=LG.trajectories;g.clearLayers();
+const trajList=document.getElementById('traj-list');trajList.innerHTML='';
+
+ATTACKS.forEach(atk=>{
+// Collect unique from->to pairs
+const paths=[];
+atk.salvos.forEach(s=>{
+  const key=s.from.join(',')+'>'+s.to.join(',');
+  if(!paths.find(p=>p.key===key)){paths.push({key,from:s.from,to:s.to,type:s.type,n:s.n,color:s.color});}
+  else{const p=paths.find(p=>p.key===key);p.n+=s.n;}
+});
+
+paths.forEach(p=>{
+  const pts=bezierPts(p.from,p.to,p.type,40);
+  // Dashed trajectory line
+  const trail=L.polyline(pts,{color:atk.clr,weight:2,opacity:.5,dashArray:'8,6'});
+  trail.bindPopup(`<div class="ptitle" style="color:${atk.clr}">🚀 ${atk.name}</div>
+  <div class="pdet"><b>Date:</b> ${atk.date}</div>
+  <div class="pdet"><b>Type:</b> ${p.type} × ${p.n}</div>
+  <div class="pdet"><b>Intercepted:</b> ${atk.stats.intercepted}</div>
+  <div class="pdet">${atk.desc}</div>`);
+  g.addLayer(trail);
+
+  // Launch point marker (small arrow)
+  const launchH=`<div style="width:10px;height:10px;background:${atk.clr};border-radius:50%;opacity:.7;animation:beacon 3s infinite"></div>`;
+  g.addLayer(L.marker(p.from,{icon:L.divIcon({html:launchH,iconSize:[10,10],iconAnchor:[5,5],className:''})}));
+
+  // Impact point marker — intercepted or hit
+  const wasHit=atk.stats.intPct<.5;
+  const impIco=wasHit?'💥':'🛡️';
+  const impClr=wasHit?'#ff4444':'#00ff88';
+  const impH=`<div style="font-size:14px;filter:drop-shadow(0 0 6px ${impClr});animation:glow-pulse 2s infinite">${impIco}</div>`;
+  const impM=L.marker(p.to,{icon:L.divIcon({html:impH,iconSize:[18,18],iconAnchor:[9,9],className:''})});
+  impM.bindPopup(`<div class="ptitle" style="color:${impClr}">${impIco} ${wasHit?'IMPACT':'INTERCEPTED'}</div>
+  <div class="pdet"><b>Attack:</b> ${atk.name}</div>
+  <div class="pdet"><b>Interception rate:</b> ${atk.stats.intercepted}</div>`);
+  g.addLayer(impM);
+});
+
+// Animated "moving dot" along each main path
+const mainPath=paths[0];
+if(mainPath){
+  const pts=bezierPts(mainPath.from,mainPath.to,mainPath.type,100);
+  const dot=L.circleMarker(pts[0],{radius:3,color:atk.clr,fillColor:'#fff',fillOpacity:1,weight:2});
+  g.addLayer(dot);
+  let i=0;
+  setInterval(()=>{i=(i+1)%pts.length;dot.setLatLng(pts[i]);},80);
+}
+
+// Legend row
+const intBg=atk.stats.intPct>.8?'rgba(0,255,136,.15)':atk.stats.intPct>.4?'rgba(255,204,0,.15)':'rgba(255,68,68,.15)';
+const intClr=atk.stats.intPct>.8?'#00ff88':atk.stats.intPct>.4?'#ffcc00':'#ff4444';
+const row=document.createElement('div');row.className='traj-row';
+row.innerHTML=`<div class="traj-line" style="border-color:${atk.clr}"></div>
+<span style="font-size:10px;color:var(--text)">${atk.name}</span>
+<span class="traj-int" style="background:${intBg};color:${intClr}">${atk.stats.intercepted}</span>`;
+row.onclick=()=>{map.flyTo(atk.center,atk.zoom,{duration:1.2});selectAttack(atk.id);};
+trajList.appendChild(row);
+});
+}
+drawTrajectories();
+
+// ================================================================
+//  SIDEBAR — LAYER CONTROLS + TABS
 // ================================================================
 const lcDiv=document.getElementById('layer-controls');
-LAYERS.forEach(L_=>{const cnt=L_.src&&D[L_.src]?D[L_.src].length:(L_.id==='adsb'||L_.id==='gdelt'?'live':'');
+LAYERS.forEach(L_=>{const cnt=L_.src&&D[L_.src]?D[L_.src].length:(L_.id==='adsb'||L_.id==='gdelt'?'live':L_.id==='trajectories'?ATTACKS.length:'');
 const d=document.createElement('div');
 d.innerHTML=`<label class="layer-toggle"><input type="checkbox" ${L_.on?'checked':''} data-l="${L_.id}"><span class="lcheck"></span><span class="ldot" style="background:${L_.clr}"></span><span>${L_.ico} ${L_.lbl}</span><span class="lcount">${cnt}</span></label>`;
 lcDiv.appendChild(d);
 d.querySelector('input').onchange=e=>{const g=LG[L_.id];if(!g)return;e.target.checked?map.addLayer(g):map.removeLayer(g);
-if(L_.id==='ranges')document.getElementById('range-legend').style.display=e.target.checked?'block':'none';};});
+if(L_.id==='ranges')document.getElementById('range-legend').style.display=e.target.checked?'block':'none';
+if(L_.id==='trajectories')document.getElementById('traj-legend').style.display=e.target.checked?'block':'none';};});
 
-// TABS
 document.querySelectorAll('.sb-tab').forEach(t=>t.onclick=()=>{
 document.querySelectorAll('.sb-tab').forEach(x=>x.classList.remove('active'));
 document.querySelectorAll('.sb-panel').forEach(x=>x.classList.remove('active'));
 t.classList.add('active');document.querySelector(`[data-panel="${t.dataset.tab}"]`).classList.add('active');});
 
-// SEARCH
 document.getElementById('search-input').oninput=e=>{const q=e.target.value.toLowerCase();
 if(!q){allM.forEach(m=>m.m.setOpacity(1));return;}
 allM.forEach(({m,it})=>{const ok=(it.n||'').toLowerCase().includes(q)||(it.d||'').toLowerCase().includes(q)||(it.c||'').toLowerCase().includes(q);
 m.setOpacity(ok?1:.12);});};
 
 // ================================================================
-//  MISSILE ANIMATION ENGINE
+//  MISSILE ANIMATION ENGINE (REPLAY)
 // ================================================================
 let replayActive=false,replayTimers=[],replayLayers=[];
-function bezierPt(t,p0,p1,cp){return[(1-t)*(1-t)*p0[0]+2*(1-t)*t*cp[0]+t*t*p1[0],(1-t)*(1-t)*p0[1]+2*(1-t)*t*cp[1]+t*t*p1[1]];}
-
 function fireMissile(from,to,dur,color,type){
-const dist=Math.sqrt((to[0]-from[0])**2+(to[1]-from[1])**2);
-const arcH=type==='drone'?dist*.08:type==='cruise'?dist*.15:dist*.25;
-const cp=[(from[0]+to[0])/2+arcH,(from[1]+to[1])/2];
-const pts=[];for(let t=0;t<=1;t+=.02)pts.push(bezierPt(t,from,to,cp));
-const trail=L.polyline([],{color,weight:type==='drone'?1:2,opacity:.7}).addTo(map);
+const pts=bezierPts(from,to,type,50);
+const trail=L.polyline([],{color,weight:type==='drone'?1:2,opacity:.8}).addTo(map);
 const headSz=type==='drone'?4:type==='cruise'?5:6;
 const head=L.circleMarker(from,{radius:headSz,color,fillColor:'#fff',fillOpacity:1,weight:2,className:'missile-head'}).addTo(map);
 replayLayers.push(trail,head);
 let i=0;const step=dur/pts.length;
 const iv=setInterval(()=>{if(i>=pts.length||!replayActive){
 clearInterval(iv);
-if(i>=pts.length){// impact
-head.remove();
+if(i>=pts.length){head.remove();
 const imp=L.circleMarker(to,{radius:8,color,fillColor:color,fillOpacity:.6,weight:0}).addTo(map);
 replayLayers.push(imp);
 let r=8,op=.6;const fade=setInterval(()=>{r+=2;op-=.03;if(op<=0){clearInterval(fade);imp.remove();}
@@ -659,17 +724,11 @@ document.querySelector(`[data-atk="${id}"]`)?.classList.add('active');
 document.getElementById('replay-controls').classList.add('active');
 document.getElementById('replay-status').textContent=currentAttack.name;
 document.getElementById('replay-btn').textContent='▶ PLAY';
-stopReplay();
-map.flyTo(currentAttack.center,currentAttack.zoom,{duration:1.5});
+stopReplay();map.flyTo(currentAttack.center,currentAttack.zoom,{duration:1.5});
 }
-
-function toggleReplay(){
-if(replayActive){stopReplay();}
-else{startReplay();}
-}
+function toggleReplay(){replayActive?stopReplay():startReplay();}
 function startReplay(){
-if(!currentAttack)return;
-stopReplay();replayActive=true;
+if(!currentAttack)return;stopReplay();replayActive=true;
 document.getElementById('replay-btn').textContent='⬛ STOP';
 document.getElementById('replay-btn').classList.add('stop');
 const spd=parseFloat(document.getElementById('replay-speed').value);
@@ -693,63 +752,50 @@ d.innerHTML=`<div class="attack-date">${a.date}</div><div class="attack-name">${
 d.onclick=()=>selectAttack(a.id);atkList.appendChild(d);});
 
 // ================================================================
-//  ADS-B MILITARY FLIGHT TRACKER (OpenSky — 60s interval, with cache)
+//  ADS-B MILITARY FLIGHT TRACKER
 // ================================================================
 let adsbCache=null,adsbLastOk=0,adsbFails=0;
 async function loadADSB(){
 const flightsDiv=document.getElementById('flights-feed');
 try{
-// Split into 2 smaller bbox requests to reduce load
-const boxes=[
-{la1:20,lo1:25,la2:38,lo2:55}, // West ME (Iraq, Syria, Gulf)
-{la1:25,lo1:45,la2:42,lo2:65}, // East ME (Iran, Afghan)
-];
+const boxes=[{la1:20,lo1:25,la2:38,lo2:55},{la1:25,lo1:45,la2:42,lo2:65}];
 let allStates=[];
 for(const b of boxes){
 const res=await fetch(`https://opensky-network.org/api/states/all?lamin=${b.la1}&lomin=${b.lo1}&lamax=${b.la2}&lomax=${b.lo2}`);
-if(!res.ok)continue;
-const data=await res.json();
-if(data.states)allStates.push(...data.states);
-await new Promise(r=>setTimeout(r,1500)); // pace requests
+if(!res.ok)continue;const data=await res.json();if(data.states)allStates.push(...data.states);
+await new Promise(r=>setTimeout(r,1500));
 }
-if(!allStates.length&&adsbCache){allStates=adsbCache;} // use cache
+if(!allStates.length&&adsbCache){allStates=adsbCache;}
 adsbCache=allStates;adsbLastOk=Date.now();adsbFails=0;
-LG.adsb.clearLayers();
-let milFlights=[];
+LG.adsb.clearLayers();let milFlights=[];
 allStates.forEach(s=>{
 const cs=(s[1]||'').trim();const lat=s[6];const lng=s[5];const alt=s[7];const vel=s[9];const hdg=s[10];const onG=s[8];
 if(!lat||!lng||onG)return;
 const isMil=MIL_CS.some(p=>p.test(cs))||(alt>13000&&vel>150);
 if(!isMil||!cs)return;
 const rot=`transform:rotate(${(hdg||0)-90}deg)`;
-const h=`<div style="color:var(--cyan);font-size:14px;${rot};filter:drop-shadow(0 0 4px #00ccff)">✈</div>`;
-const m=L.marker([lat,lng],{icon:L.divIcon({html:h,iconSize:[16,16],iconAnchor:[8,8],className:''})});
+const h=`<div style="color:var(--cyan);font-size:16px;${rot};filter:drop-shadow(0 0 6px #00ccff);animation:glow-pulse 2s infinite">✈</div>`;
+const m=L.marker([lat,lng],{icon:L.divIcon({html:h,iconSize:[18,18],iconAnchor:[9,9],className:''})});
 m.bindPopup(`<div class="ptitle" style="color:var(--cyan)">✈️ ${cs}</div>
 <div class="pdet"><b>Alt:</b> ${alt?Math.round(alt*3.281).toLocaleString()+'ft':'?'}</div>
 <div class="pdet"><b>Speed:</b> ${vel?Math.round(vel*1.944)+'kts':'?'}</div>
-<div class="pdet"><b>Heading:</b> ${hdg?Math.round(hdg)+'°':'?'}</div>
-<div class="pdet" style="font-size:9px;color:#4b5563">📍 ${lat.toFixed(3)}, ${lng.toFixed(3)}</div>`);
+<div class="pdet"><b>Heading:</b> ${hdg?Math.round(hdg)+'°':'?'}</div>`);
 LG.adsb.addLayer(m);milFlights.push({cs,alt,vel,lat,lng,hdg});});
 document.getElementById('st-flights').textContent=milFlights.length;
 if(milFlights.length>0){
 flightsDiv.innerHTML=milFlights.sort((a,b)=>(b.alt||0)-(a.alt||0)).slice(0,30).map(f=>`<div class="flight-item">
 <span class="flight-callsign">${f.cs}</span>
-<span class="flight-alt">${f.alt?Math.round(f.alt*3.281).toLocaleString()+'ft':'-'}</span>
-<span class="flight-info">${f.vel?Math.round(f.vel*1.944)+'kts':''} ${f.hdg?Math.round(f.hdg)+'°':''}</span>
-</div>`).join('');
-flightsDiv.innerHTML+=`<div style="text-align:center;padding:6px;color:var(--dim);font-size:9px">${milFlights.length} military aircraft • updated ${new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}</div>`;
+<span class="flight-alt" style="color:var(--gold)">${f.alt?Math.round(f.alt*3.281).toLocaleString()+'ft':'-'}</span>
+<span style="color:var(--dim);font-size:9px">${f.vel?Math.round(f.vel*1.944)+'kts':''}</span></div>`).join('');
+flightsDiv.innerHTML+=`<div style="text-align:center;padding:6px;color:var(--dim);font-size:9px">${milFlights.length} military aircraft • ${new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}</div>`;
 }else{flightsDiv.innerHTML='<div class="no-alerts">No military flights detected<br><span style="font-size:9px">Next scan in 60s</span></div>';}
 }catch(e){
-adsbFails++;console.warn('ADS-B:',e);
-const wait=Math.min(adsbFails*30,300);
-if(adsbCache&&adsbCache.length>0){
-flightsDiv.innerHTML=`<div style="text-align:center;padding:10px;color:var(--dim);font-size:10px">✈️ Showing cached data (${adsbCache.length} states)<br><span style="font-size:9px">API cooling down... retry in ${wait}s</span></div>`;
-}else{
-flightsDiv.innerHTML=`<div class="no-alerts">✈️ OpenSky cooling down<br><span style="font-size:9px">Free API = 1 req/min. Retry in ${wait}s</span></div>`;
-}}}
+adsbFails++;
+if(adsbCache){flightsDiv.innerHTML=`<div style="text-align:center;padding:10px;color:var(--dim);font-size:10px">✈️ Cached data (${adsbCache.length} states)<br><span style="font-size:9px">Retry in ${Math.min(adsbFails*30,300)}s</span></div>`;
+}else{flightsDiv.innerHTML=`<div class="no-alerts">✈️ OpenSky cooling down<br><span style="font-size:9px">Free API = 1 req/min</span></div>`;}}}
 
 // ================================================================
-//  PIKUD HAOREF — REAL-TIME ALERTS
+//  PIKUD HAOREF
 // ================================================================
 let alertHistory=[];
 async function loadAlerts(){
@@ -757,31 +803,25 @@ try{
 const proxy='https://api.allorigins.win/raw?url=';
 const url=encodeURIComponent('https://www.oref.org.il/warningMessages/alert/alerts.json');
 const res=await fetch(proxy+url,{headers:{'Accept':'application/json'}});
-if(!res.ok)throw new Error(res.status);
-const text=await res.text();
-if(!text||text==='[]'||text.trim()===''){
-// No active alerts - show calm state
-return;
-}
-const alerts=JSON.parse(text);
-if(!Array.isArray(alerts)||alerts.length===0)return;
+if(!res.ok)return;const text=await res.text();
+if(!text||text==='[]'||text.trim()==='')return;
+const alerts=JSON.parse(text);if(!Array.isArray(alerts)||!alerts.length)return;
 const feedDiv=document.getElementById('alerts-feed');
-// New alerts!
 alerts.forEach(a=>{
-const key=a.data+'_'+Date.now();
 if(alertHistory.includes(a.data+a.title))return;
 alertHistory.push(a.data+a.title);
 const div=document.createElement('div');div.className='alert-item';
-div.innerHTML=`<div class="alert-type">🚨 ${a.title||'ALERT'}</div><div class="alert-area">${a.data||'Unknown area'}</div><div class="alert-time">${new Date().toLocaleTimeString('he-IL')}</div>`;
+div.innerHTML=`<div class="alert-type">🚨 ${a.title||'ALERT'}</div><div class="alert-area">${a.data||'Unknown'}</div><div class="alert-time" style="font-size:9px;color:var(--dim)">${new Date().toLocaleTimeString('he-IL')}</div>`;
 feedDiv.prepend(div);
-// Flash the alerts tab
 document.querySelector('[data-tab="alerts"]').style.color='var(--red)';
 document.querySelector('[data-tab="alerts"]').style.animation='blink .5s 5';
+// Add alert to ticker
+addTickerItem('🚨 '+a.data,'critical');
 });
-}catch(e){/* Likely CORS or no alerts - silent */}}
+}catch(e){}}
 
 // ================================================================
-//  GDELT FEED
+//  GDELT FEED — MAP EVENTS + NEWS
 // ================================================================
 async function loadGDELT(){
 const feedDiv=document.getElementById('news-feed');
@@ -793,11 +833,15 @@ LG.gdelt.clearLayers();let ec=0;
 gD.features.forEach(f=>{if(!f.geometry?.coordinates)return;
 const[lng,lat]=f.geometry.coordinates;if(lat<5||lat>45||lng<25||lng>75)return;
 const nm=f.properties?.name||'Event';const cnt=f.properties?.count||1;
-LG.gdelt.addLayer(L.circleMarker([lat,lng],{radius:Math.min(3+cnt,12),color:'#00ff88',fillColor:'#00ff88',fillOpacity:.3,weight:1})
-.bindPopup(`<div class="ptitle" style="color:#00ff88">📡 ${nm}</div><div class="pdet">Mentions: ${cnt}</div>`));ec++;});
+const sz=Math.min(4+cnt*2,14);
+// Animated event marker
+const h=`<div style="width:${sz}px;height:${sz}px;background:#00ff88;border-radius:50%;opacity:.6;animation:pulse-threat 2s ease-in-out infinite;box-shadow:0 0 ${sz}px #00ff88"></div>`;
+const m=L.marker([lat,lng],{icon:L.divIcon({html:h,iconSize:[sz,sz],iconAnchor:[sz/2,sz/2],className:''})});
+m.bindPopup(`<div class="ptitle" style="color:#00ff88">📡 ${nm}</div><div class="pdet">Mentions: ${cnt}</div>`);
+LG.gdelt.addLayer(m);ec++;});
 document.getElementById('st-events').textContent=ec;
 }}
-}catch(e){console.warn('GDELT GEO:',e);}
+}catch(e){}
 try{
 const dUrl='https://api.gdeltproject.org/api/v2/doc/doc?query=(military OR nuclear OR missile OR strike) (iran OR iraq OR syria OR yemen OR hezbollah)&mode=ArtList&format=json&maxrecords=20&sort=DateDesc';
 const dR=await fetch(dUrl);
@@ -807,12 +851,44 @@ dD.articles.forEach(a=>{const div=document.createElement('div');div.className='n
 const dt=a.seendate?new Date(a.seendate.replace(/(\d{4})(\d{2})(\d{2})T(\d{2})(\d{2})(\d{2})Z/,'$1-$2-$3T$4:$5:$6Z')):null;
 const ago=dt?timeAgo(dt):'';const dom=a.domain||(a.url?new URL(a.url).hostname:'');
 div.innerHTML=`<div class="news-title">${a.title||'No title'}</div><div class="news-meta"><span class="news-src">${dom}</span><span>${ago}</span></div>`;
-div.onclick=()=>window.open(a.url,'_blank');feedDiv.appendChild(div);});
+div.onclick=()=>window.open(a.url,'_blank');feedDiv.appendChild(div);
+// Add top articles to ticker
+addTickerItem(a.title||'Event','info');
+});
 }}
 }catch(e){feedDiv.innerHTML='<div style="text-align:center;padding:20px;color:var(--dim);font-size:11px">⚠️ Feed unavailable</div>';}}
 
 function timeAgo(d){const s=(Date.now()-d.getTime())/1000;
 if(s<3600)return Math.floor(s/60)+'m';if(s<86400)return Math.floor(s/3600)+'h';return Math.floor(s/86400)+'d';}
+
+// ================================================================
+//  LIVE TICKER
+// ================================================================
+let tickerItems=[];
+function addTickerItem(text,sev){
+const clr=sev==='critical'?'#ff4444':sev==='high'?'#ff8800':sev==='warning'?'#ffcc00':'#00ff88';
+tickerItems.push({text:text.substring(0,120),clr,time:new Date()});
+if(tickerItems.length>50)tickerItems=tickerItems.slice(-50);
+renderTicker();
+}
+
+function renderTicker(){
+const scroll=document.getElementById('ticker-scroll');
+const count=document.getElementById('ticker-count');
+scroll.innerHTML=tickerItems.map(t=>
+  `<span class="ticker-item"><span class="ticker-sev" style="background:${t.clr}"></span>${t.text} <span style="color:var(--dim);font-size:9px">${timeAgo(t.time)}</span></span>`
+).join('');
+// Duplicate for seamless scroll
+scroll.innerHTML+=scroll.innerHTML;
+count.textContent=tickerItems.length+' events';
+// Adjust animation speed based on content
+const dur=Math.max(30,tickerItems.length*4);
+scroll.style.animationDuration=dur+'s';
+}
+
+// Seed ticker with attack history
+ATTACKS.forEach(a=>{addTickerItem(`${a.name} (${a.date}) — ${(a.stats.ballistic||0)+(a.stats.cruise||0)+(a.stats.drone||0)} projectiles, ${a.stats.intercepted} intercepted`,
+a.stats.intPct>.8?'info':'high');});
 
 // ================================================================
 //  CLOCKS
@@ -827,13 +903,78 @@ document.getElementById('ck-riy').textContent=f('Asia/Riyadh');
 document.getElementById('live-label').textContent='LIVE • '+f('UTC')+' Z';}
 
 // ================================================================
+//  DAILY INTELLIGENCE BRIEF
+// ================================================================
+async function loadBrief(){
+const bd=document.getElementById('brief-content');
+try{
+const res=await fetch('brief.json');if(!res.ok)throw new Error('No brief');
+const b=await res.json();
+const tc=b.threat_level==='CRITICAL'?'var(--red)':b.threat_level==='HIGH'?'var(--orange)':'var(--gold)';
+document.getElementById('threat-level').textContent=b.threat_level;
+let html=`<div style="border:1px solid ${tc};border-radius:6px;padding:8px;margin-bottom:8px;background:${tc}11">
+<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:${tc};margin-bottom:4px">⚡ THREAT: ${b.threat_level}</div>
+<div style="font-size:11px;line-height:1.4">${b.summary||b.brief_text?.substring(0,300)||'No summary'}</div></div>`;
+if(b.key_developments){html+=`<div style="font-size:9px;text-transform:uppercase;color:var(--accent);letter-spacing:1px;margin:8px 0 4px">KEY DEVELOPMENTS</div>`;
+b.key_developments.forEach(d=>{const sc=d.severity==='critical'?'var(--red)':d.severity==='high'?'var(--orange)':'var(--dim)';
+html+=`<div style="padding:5px 0;border-bottom:1px solid var(--border)"><div style="font-size:11px;font-weight:600;color:${sc}">${d.title}</div>
+<div style="font-size:10px;color:var(--dim);margin-top:2px">${d.detail}</div></div>`;});}
+if(b.watch_items){html+=`<div style="font-size:9px;text-transform:uppercase;color:var(--gold);letter-spacing:1px;margin:8px 0 4px">👁 WATCH LIST</div>`;
+b.watch_items.forEach(w=>{html+=`<div style="font-size:10px;padding:3px 0;color:var(--dim)">• ${w}</div>`;});}
+if(b.iran_focus){html+=`<div style="font-size:9px;text-transform:uppercase;color:var(--red);letter-spacing:1px;margin:8px 0 4px">🇮🇷 IRAN FOCUS</div>`;
+html+=`<div style="font-size:10px;color:var(--dim);margin:4px 0"><b style="color:var(--text)">Nuclear:</b> ${b.iran_focus.nuclear_status}</div>`;
+html+=`<div style="font-size:10px;color:var(--dim);margin:4px 0"><b style="color:var(--text)">Military:</b> ${b.iran_focus.military_activity}</div>`;}
+if(b.analyst_note||b.hotspots){html+=`<div style="font-size:9px;text-transform:uppercase;color:var(--accent);letter-spacing:1px;margin:8px 0 4px">📝 ASSESSMENT</div>`;
+html+=`<div style="font-size:10px;color:var(--dim);font-style:italic;border-left:2px solid var(--accent);padding-left:8px">${b.analyst_note||''}</div>`;}
+html+=`<div style="text-align:center;margin-top:10px;font-size:8px;color:var(--dim)">Generated: ${new Date(b.generated_at||b.generated).toLocaleString('en-GB')}</div>`;
+bd.innerHTML=html;
+}catch(e){bd.innerHTML='<div style="text-align:center;padding:20px;color:var(--dim);font-size:11px">📋 Run <code>npm run brief:generate</code></div>';}}
+
+// ================================================================
+//  TELEGRAM OSINT FEED
+// ================================================================
+async function loadTelegram(){
+try{
+const res=await fetch('telegram-feed.json');if(!res.ok)return;
+const data=await res.json();if(!data.events?.length)return;
+const tgLayer=LG.gdelt;
+data.events.filter(e=>e.coords).forEach(e=>{
+const sc=e.severity==='critical'?'#ff4444':e.severity==='high'?'#ff8800':e.severity==='warning'?'#ffcc00':'#00ff88';
+// Animated telegram event marker
+const sz=e.severity==='critical'?12:e.severity==='high'?10:7;
+const h=`<div style="position:relative;width:${sz}px;height:${sz}px">
+<div style="position:absolute;inset:0;background:${sc};border-radius:50%;animation:pulse-threat 2s infinite"></div>
+<div style="position:absolute;inset:-4px;border:1px solid ${sc};border-radius:50%;animation:pulse-ring 2.5s infinite"></div></div>`;
+const m=L.marker(e.coords,{icon:L.divIcon({html:h,iconSize:[sz+8,sz+8],iconAnchor:[(sz+8)/2,(sz+8)/2],className:''})});
+m.bindPopup(`<div class="ptitle" style="color:${sc}">📡 ${e.channel}</div>
+<div class="pdet">${e.text.substring(0,200)}...</div>
+<div class="pdet" style="font-size:9px;color:var(--dim)">${e.date?new Date(e.date).toLocaleString('en-GB'):''}</div>
+<div class="pdet" style="font-size:9px">👁 ${e.views||0} views • ↗️ ${e.forwards||0} fwd</div>`);
+tgLayer.addLayer(m);
+// Add to ticker
+addTickerItem(`[${e.channel}] ${e.text.substring(0,80)}`,e.severity);
+});
+// Add to sidebar feed
+const feedDiv=document.getElementById('news-feed');
+const tgSection=document.createElement('div');
+tgSection.innerHTML=`<div style="font-size:9px;text-transform:uppercase;color:var(--purple);letter-spacing:1px;padding:6px 0;border-bottom:1px solid var(--border)">📡 TELEGRAM OSINT (${data.total_events} events)</div>`;
+data.events.slice(0,15).forEach(e=>{
+const sc=e.severity==='critical'?'var(--red)':e.severity==='high'?'var(--orange)':'var(--dim)';
+const d=document.createElement('div');d.className='news-item';
+d.innerHTML=`<div class="news-title" style="border-left:2px solid ${sc};padding-left:6px">${e.text.substring(0,120)}...</div>
+<div class="news-meta"><span class="news-src">${e.channel}</span><span>${e.location?'📍'+e.location:''} ${e.date?timeAgo(new Date(e.date)):''}</span></div>`;
+tgSection.appendChild(d);});
+feedDiv.prepend(tgSection);
+}catch(e){}}
+
+// ================================================================
 //  UI HELPERS
 // ================================================================
 function flyTo(a,b,z){map.flyTo([a,b],z,{duration:1.2});}
 function toggleSidebar(){document.getElementById('sidebar').classList.toggle('collapsed');document.getElementById('sidebar-toggle').classList.toggle('collapsed');}
 function toggleAttack(){document.getElementById('attack-panel').classList.toggle('open');document.getElementById('attack-toggle').classList.toggle('open');}
 
-// DISTANCE MEASURE
+// Distance measure
 let mPts=[],mLine=null,measuring=false;
 map.on('contextmenu',e=>{if(!measuring){measuring=true;mPts=[e.latlng];
 L.popup().setLatLng(e.latlng).setContent('<span style="font-size:11px">📏 Right-click target</span>').openOn(map);
@@ -842,7 +983,7 @@ if(mLine)map.removeLayer(mLine);mLine=L.polyline(mPts,{color:'#ffcc00',weight:2,
 L.popup().setLatLng(e.latlng).setContent(`<b style="color:#ffcc00;font-size:14px">📏 ${km} km</b>`).openOn(map);
 measuring=false;mPts=[];setTimeout(()=>{if(mLine){map.removeLayer(mLine);mLine=null;}},15000);}});
 
-// KEYBOARD
+// Keyboard
 document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;
 switch(e.key){
 case'1':flyTo(32.43,53.69,6);break;case'2':flyTo(35.69,51.39,11);break;
@@ -852,6 +993,19 @@ case'r':case'R':{const i=document.querySelector('[data-l="ranges"]');if(i){i.che
 case'a':case'A':toggleAttack();break;
 case's':case'S':toggleSidebar();break;
 case'Escape':map.closePopup();stopReplay();break;}});
+
+// ================================================================
+//  CONFLICT ZONE PULSE ANIMATION
+// ================================================================
+setInterval(()=>{
+// Animate conflict zone opacity for "breathing" effect
+document.querySelectorAll('.leaflet-interactive').forEach(el=>{
+  if(el.getAttribute('stroke-dasharray')==='5,5'){
+    const op=.08+Math.sin(Date.now()/1000)*.06;
+    el.setAttribute('fill-opacity',op);
+  }
+});
+},100);
 
 // ================================================================
 //  PWA
@@ -867,72 +1021,6 @@ const sw=`self.addEventListener('install',()=>self.skipWaiting());self.addEventL
 self.addEventListener('fetch',e=>{e.respondWith(fetch(e.request).catch(()=>new Response('Offline')));});`;
 navigator.serviceWorker.register(URL.createObjectURL(new Blob([sw],{type:'text/javascript'})));}
 })();
-
-// ================================================================
-//  DAILY INTELLIGENCE BRIEF
-// ================================================================
-async function loadBrief(){
-const bd=document.getElementById('brief-content');
-try{
-const res=await fetch('brief.json');
-if(!res.ok)throw new Error('No brief');
-const b=await res.json();
-const tc=b.threat_level==='CRITICAL'?'var(--red)':b.threat_level==='HIGH'?'var(--orange)':'var(--gold)';
-document.getElementById('threat-level').textContent=b.threat_level;
-let html=`<div style="border:1px solid ${tc};border-radius:6px;padding:8px;margin-bottom:8px;background:${tc}11">
-<div style="font-size:9px;text-transform:uppercase;letter-spacing:1px;color:${tc};margin-bottom:4px">⚡ THREAT: ${b.threat_level}</div>
-<div style="font-size:11px;line-height:1.4">${b.summary}</div></div>`;
-if(b.key_developments){html+=`<div style="font-size:9px;text-transform:uppercase;color:var(--accent);letter-spacing:1px;margin:8px 0 4px">KEY DEVELOPMENTS</div>`;
-b.key_developments.forEach(d=>{const sc=d.severity==='critical'?'var(--red)':d.severity==='high'?'var(--orange)':'var(--dim)';
-html+=`<div style="padding:5px 0;border-bottom:1px solid var(--border)"><div style="font-size:11px;font-weight:600;color:${sc}">${d.title}</div>
-<div style="font-size:10px;color:var(--dim);margin-top:2px">${d.detail}</div>
-<div style="font-size:9px;color:var(--blue);margin-top:1px">📍 ${d.region}</div></div>`;});}
-if(b.watch_items){html+=`<div style="font-size:9px;text-transform:uppercase;color:var(--gold);letter-spacing:1px;margin:8px 0 4px">👁 WATCH LIST</div>`;
-b.watch_items.forEach(w=>{html+=`<div style="font-size:10px;padding:3px 0;color:var(--dim)">• ${w}</div>`;});}
-if(b.iran_focus){html+=`<div style="font-size:9px;text-transform:uppercase;color:var(--red);letter-spacing:1px;margin:8px 0 4px">🇮🇷 IRAN FOCUS</div>`;
-html+=`<div style="font-size:10px;color:var(--dim);margin:4px 0"><b style="color:var(--text)">Nuclear:</b> ${b.iran_focus.nuclear_status}</div>`;
-html+=`<div style="font-size:10px;color:var(--dim);margin:4px 0"><b style="color:var(--text)">Military:</b> ${b.iran_focus.military_activity}</div>`;
-html+=`<div style="font-size:10px;color:var(--dim);margin:4px 0"><b style="color:var(--text)">Proxies:</b> ${b.iran_focus.proxy_activity}</div>`;}
-if(b.hotspots){html+=`<div style="font-size:9px;text-transform:uppercase;color:var(--red);letter-spacing:1px;margin:8px 0 4px">🔥 HOTSPOTS</div>`;
-b.hotspots.forEach(h=>{const tc=h.trend==='escalating'?'var(--red)':h.trend==='de-escalating'?'var(--green)':'var(--dim)';
-html+=`<div style="font-size:10px;padding:2px 0"><span style="color:var(--text)">${h.name}</span> <span style="color:var(--dim)">(${h.events})</span> <span style="color:${tc};font-size:9px">▸ ${h.trend}</span></div>`;});}
-if(b.analyst_note){html+=`<div style="font-size:9px;text-transform:uppercase;color:var(--accent);letter-spacing:1px;margin:8px 0 4px">📝 ANALYST NOTE</div>`;
-html+=`<div style="font-size:10px;color:var(--dim);font-style:italic;border-left:2px solid var(--accent);padding-left:8px">${b.analyst_note}</div>`;}
-html+=`<div style="text-align:center;margin-top:10px;font-size:8px;color:var(--dim)">Generated: ${new Date(b.generated_at).toLocaleString('en-GB')} • ${b.source||'Claude AI'}</div>`;
-bd.innerHTML=html;
-}catch(e){bd.innerHTML='<div style="text-align:center;padding:20px;color:var(--dim);font-size:11px">📋 Run <code>npm run brief:generate</code> to create brief</div>';}}
-
-// ================================================================
-//  TELEGRAM OSINT FEED
-// ================================================================
-async function loadTelegram(){
-try{
-const res=await fetch('telegram-feed.json');
-if(!res.ok)return;
-const data=await res.json();
-if(!data.events||!data.events.length)return;
-// Add geo-tagged events to map
-const tgLayer=LG.gdelt;// reuse gdelt layer for now
-data.events.filter(e=>e.coords).forEach(e=>{
-const sc=e.severity==='critical'?'#ff4444':e.severity==='high'?'#ff8800':e.severity==='warning'?'#ffcc00':'#00ff88';
-const m=L.circleMarker(e.coords,{radius:6,color:sc,fillColor:sc,fillOpacity:.5,weight:1.5});
-m.bindPopup(`<div class="ptitle" style="color:${sc}">📡 ${e.channel}</div>
-<div class="pdet">${e.text.substring(0,200)}...</div>
-<div class="pdet" style="color:var(--dim);font-size:9px">${e.date?new Date(e.date).toLocaleString('en-GB'):''}</div>
-<div class="pdet" style="font-size:9px">👁 ${e.views||0} views • ↗️ ${e.forwards||0} fwd</div>`);
-tgLayer.addLayer(m);});
-// Add to news feed
-const feedDiv=document.getElementById('news-feed');
-const tgSection=document.createElement('div');
-tgSection.innerHTML=`<div style="font-size:9px;text-transform:uppercase;color:var(--purple);letter-spacing:1px;padding:6px 0;border-bottom:1px solid var(--border)">📡 TELEGRAM OSINT (${data.total_events} events)</div>`;
-data.events.slice(0,15).forEach(e=>{
-const sc=e.severity==='critical'?'var(--red)':e.severity==='high'?'var(--orange)':'var(--dim)';
-const d=document.createElement('div');d.className='news-item';
-d.innerHTML=`<div class="news-title" style="border-left:2px solid ${sc};padding-left:6px">${e.text.substring(0,120)}...</div>
-<div class="news-meta"><span class="news-src">${e.channel}</span><span>${e.location?'📍'+e.location:''} ${e.date?timeAgo(new Date(e.date)):''}</span></div>`;
-tgSection.appendChild(d);});
-feedDiv.prepend(tgSection);
-}catch(e){/* No telegram feed yet */}}
 
 // ================================================================
 //  INIT
