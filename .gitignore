@@ -2,4 +2,4 @@
 backend/node_modules/
 backend/session.json
 *.session
-telegram-feed.json
+# telegram-feed.json is needed for the site

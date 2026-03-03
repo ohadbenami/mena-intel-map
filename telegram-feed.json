@@ -1,0 +1,1066 @@
+{
+  "generated": "2026-03-03T14:37:22.854Z",
+  "source": "Telegram OSINT",
+  "channels": 12,
+  "total_events": 92,
+  "geo_tagged": 15,
+  "events": [
+    {
+      "id": 17659,
+      "channel": "@OSINTdefender",
+      "text": "#EU\n\nNATO Secretary General Mark Rutte has stated that the U.S. and Israeli military actions are crucial in degrading Iran's ability to acquire nuclear and ballistic missile capabilities. However, he emphasized that NATO itself will not be involved in the conflict.",
+      "date": "2026-03-03T13:47:20.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "high",
+      "views": 193,
+      "forwards": 1
+    },
+    {
+      "id": 17658,
+      "channel": "@OSINTdefender",
+      "text": "#Iran\n\nMojtaba Khamenei, the son of the late Ayatollah Ali Khamenei, is indeed considered a potential candidate for the Supreme Leader position, although his succession faces challenges due to constitutional requirements and opposition within clerical circles. Reports suggest he remains alive despite earlier claims of his death, adding to the uncertainty surrounding Iran's leadership transition.",
+      "date": "2026-03-03T13:45:36.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 204,
+      "forwards": 2
+    },
+    {
+      "id": 17657,
+      "channel": "@OSINTdefender",
+      "text": "#ME #USA\n\nThe statement suggests that U.S. officials believe there are numerous justifications for targeting figures like Ayatollah Khamenei, particularly due to alleged threats he poses, including plots against President Trump. This reflects ongoing tensions and the U.S. stance on addressing perceived threats from Iran's leadership.",
+      "date": "2026-03-03T13:44:11.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 199,
+      "forwards": 0
+    },
+    {
+      "id": 17656,
+      "channel": "@OSINTdefender",
+      "text": "#Bahrain\n\nBahrain's air defense systems have successfully intercepted and destroyed 73 missiles and 91 drones launched from Iran during the ongoing conflict. This response highlights Bahrain's efforts to protect its territory amid escalating tensions in the region.",
+      "date": "2026-03-03T13:43:31.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "critical",
+      "views": 198,
+      "forwards": 0
+    },
+    {
+      "id": 17655,
+      "channel": "@OSINTdefender",
+      "text": "#ME\n\nSome evangelical leaders believe that military actions against Iran are part of biblical prophecies related to the end times, viewing Trump as a figure fulfilling these prophecies. This perspective connects U.S. foreign policy with apocalyptic theology, suggesting that conflicts like those in Iran could lead to significant religious events such as Armageddon.",
+      "date": "2026-03-03T13:42:48.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 199,
+      "forwards": 0
+    },
+    {
+      "id": 17654,
+      "channel": "@OSINTdefender",
+      "text": "#Iraq\n\nThe Iranian Revolutionary Guard Corps (IRGC) has conducted drone strikes against Kurdish opposition groups in northern Iraq, specifically targeting bases of the Democratic Party of Iranian Kurdistan (KDPI) and Komala. The U.S. and Israel are reportedly looking to leverage these groups to enhance their military operations against Iran.",
+      "date": "2026-03-03T13:41:13.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "critical",
+      "views": 193,
+      "forwards": 0
+    },
+    {
+      "id": 17653,
+      "channel": "@OSINTdefender",
+      "text": "#Turkey #ME\n\nTurkish President Erdogan is advocating for peace and stability in the region, emphasizing the need to prevent further conflict and bloodshed between Iran and other nations. He has mobilized resources to help resolve the turmoil and promote dialogue among the involved parties.",
+      "date": "2026-03-03T13:30:33.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 230,
+      "forwards": 0
+    },
+    {
+      "id": 17652,
+      "channel": "@OSINTdefender",
+      "text": "#Qatar #Iran\n\nQatarEnergy has temporarily halted liquefied natural gas (LNG) and petrochemical production due to Iranian drone strikes on its facilities, which is expected to impact regional energy supplies and drive prices higher. The situation is causing significant concern in global gas markets, particularly in Asia and Europe.",
+      "date": "2026-03-03T13:04:00.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "critical",
+      "views": 292,
+      "forwards": 1
+    },
+    {
+      "id": 17651,
+      "channel": "@OSINTdefender",
+      "text": "#Israel #USA #Iran\n\nIran's Islamic Revolutionary Guard Corps (IRGC) has threatened that the \"gates of hell\" will open wider for the United States and Israel, indicating an escalation in military actions against these nations. This statement reflects ongoing tensions and the potential for increased conflict in the region.",
+      "date": "2026-03-03T13:02:23.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "warning",
+      "views": 292,
+      "forwards": 0
+    },
+    {
+      "id": 17650,
+      "channel": "@OSINTdefender",
+      "text": "#Qatar #Iran\n\nQatar's Foreign Ministry has stated that claims suggesting pressure on Gulf countries will result in a return to negotiations with Iran are untrue. They emphasize that there is currently no communication with Iran amid escalating tensions.",
+      "date": "2026-03-03T13:01:35.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "warning",
+      "views": 287,
+      "forwards": 0
+    },
+    {
+      "id": 17649,
+      "channel": "@OSINTdefender",
+      "text": "#Qatar #Iran\n\nQatar's Foreign Ministry has confirmed that their stockpile of interceptor missiles remains intact and is sufficient to address current threats, countering claims of depletion. They emphasize their readiness to protect the nation and its people.",
+      "date": "2026-03-03T13:01:03.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "critical",
+      "views": 288,
+      "forwards": 0
+    },
+    {
+      "id": 17648,
+      "channel": "@OSINTdefender",
+      "text": "#Qatar #Iran\n\nQatar's Foreign Ministry confirmed that two Iranian jets were shot down after entering Qatari airspace and ignoring warnings. The search for the crew of the downed aircraft is currently underway.",
+      "date": "2026-03-03T12:35:07.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 330,
+      "forwards": 0
+    },
+    {
+      "id": 17647,
+      "channel": "@OSINTdefender",
+      "text": "#UAE #Iran\n\nA fire broke out at the Fujairah oil industry zone in the UAE after debris from a drone interception caused by air defenses fell inside the facility. Authorities have confirmed that the fire has been extinguished and operations have resumed without any reported injuries.",
+      "date": "2026-03-03T12:08:55.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "critical",
+      "views": 336,
+      "forwards": 0
+    },
+    {
+      "id": 17646,
+      "channel": "@OSINTdefender",
+      "text": "#USA #NK\n\nNorth Korea has completed a new facility at its Yongbyon nuclear complex, which is believed to be capable of enriching uranium for nuclear weapons. This development indicates an expansion of North Korea's nuclear capabilities, raising concerns among international observers.\n\nSubscribe to @OSINTdefender Chat room",
+      "date": "2026-03-03T11:17:58.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "high",
+      "views": 374,
+      "forwards": 0
+    },
+    {
+      "id": 17645,
+      "channel": "@OSINTdefender",
+      "text": "#Israel #Iran\n\nIsrael has confirmed that it conducted airstrikes on key locations in Tehran, specifically targeting the Iranian presidential office and the Supreme National Security Council, as part of its military operations against Iran. These strikes are part of a broader conflict that has escalated recently, resulting in significant casualties on both sides.",
+      "date": "2026-03-03T11:08:24.000Z",
+      "coords": [
+        35.69,
+        51.39
+      ],
+      "location": "tehran",
+      "severity": "critical",
+      "views": 372,
+      "forwards": 0
+    },
+    {
+      "id": 17644,
+      "channel": "@OSINTdefender",
+      "text": "#ME\n\nThe surge in oil prices is primarily due to escalating tensions in the Middle East, particularly the conflict involving Iran, which raises concerns about potential disruptions in oil supply. As a result, markets are reacting to the uncertainty, leading to higher prices for consumers.",
+      "date": "2026-03-03T11:05:48.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "warning",
+      "views": 369,
+      "forwards": 0
+    },
+    {
+      "id": 17643,
+      "channel": "@OSINTdefender",
+      "text": "#Lebanon #Israel\n\nIsrael has launched air raids targeting Hezbollah in Beirut's Dahiyeh suburbs and has issued forced displacement notices for 59 areas in Lebanon, aiming to ensure the safety of its civilians. These actions are part of Israel's ongoing military operations against Iranian and Hezbollah military objectives.",
+      "date": "2026-03-03T11:03:40.000Z",
+      "coords": [
+        33.89,
+        35.5
+      ],
+      "location": "beirut",
+      "severity": "critical",
+      "views": 364,
+      "forwards": 0
+    },
+    {
+      "id": 17642,
+      "channel": "@OSINTdefender",
+      "text": "#Turkey #ME #USA #Israel\n\nTurkey's Foreign Minister Hakan Fidan suggests that Israel and the U.S. aim to neutralize future threats from Iran, while Iran is retaliating by targeting energy infrastructure in the Gulf. The effectiveness and duration of this strategy by Iran remain uncertain, with potential significant consequences.",
+      "date": "2026-03-03T09:27:38.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 427,
+      "forwards": 0
+    },
+    {
+      "id": 17641,
+      "channel": "@OSINTdefender",
+      "text": "#EU #Ukraine #USA #ME\n\nThe concern is that a prolonged U.S. conflict with Iran could divert attention and resources away from the ongoing war in Ukraine, potentially undermining efforts to achieve peace with Russia. This shift in focus might weaken political and military support for Ukraine during a critical time in the conflict.",
+      "date": "2026-03-03T09:26:24.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 421,
+      "forwards": 1
+    },
+    {
+      "id": 17640,
+      "channel": "@OSINTdefender",
+      "text": "#Israel #Iran\n\nIsrael developed a comprehensive intelligence network in Tehran over several years, utilizing hacked traffic cameras and mobile networks to monitor the movements of Supreme Leader Ali Khamenei and his security teams. This operation, supported by U.S. intelligence, allowed them to analyze patterns of life and ultimately led to Khamenei's assassination.",
+      "date": "2026-03-03T09:25:37.000Z",
+      "coords": [
+        35.69,
+        51.39
+      ],
+      "location": "tehran",
+      "severity": "warning",
+      "views": 414,
+      "forwards": 1
+    },
+    {
+      "id": 17639,
+      "channel": "@OSINTdefender",
+      "text": "#Pakistan\n\nKhawaja Asif, the Pakistani Defense Minister, stated that the ongoing conflict with Iran is part of a broader \"Zionist agenda\" aimed at extending Israel's influence to Pakistan's borders, despite Iran's willingness to negotiate. He emphasized the need for unity among Pakistanis to recognize and counter this perceived threat.",
+      "date": "2026-03-03T09:24:44.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 388,
+      "forwards": 0
+    },
+    {
+      "id": 17638,
+      "channel": "@OSINTdefender",
+      "text": "#ME #EU\n\nEuropean gas prices have surged significantly due to ongoing geopolitical tensions, particularly related to the situation in Iran, which has already caused prices to rise by 25% and could lead to further increases.",
+      "date": "2026-03-03T09:23:45.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 366,
+      "forwards": 0
+    },
+    {
+      "id": 17637,
+      "channel": "@OSINTdefender",
+      "text": "#Venezuela #USA #Iran\n\nThe Trump administration's strategy involves securing Venezuelan oil to mitigate potential spikes in oil prices, allowing for military actions against Iran without economic repercussions. This plan includes purchasing up to 3 million barrels per day from Venezuela at a favorable price.",
+      "date": "2026-03-03T09:23:44.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 353,
+      "forwards": 1
+    },
+    {
+      "id": 17636,
+      "channel": "@OSINTdefender",
+      "text": "#France #Cyprus #UK\n\nFrance is sending anti-missile and anti-drone systems to Cyprus following a drone strike that caused minimal damage to the UK's RAF Akrotiri base. This assistance comes in response to the ongoing security threats in the region.",
+      "date": "2026-03-03T08:44:38.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "critical",
+      "views": 400,
+      "forwards": 1
+    },
+    {
+      "id": 17635,
+      "channel": "@OSINTdefender",
+      "text": "#Iran #Oman #ME\n\nA drone did strike a fuel tank at Oman's Duqm commercial port, but the damage was contained and there were no casualties reported.",
+      "date": "2026-03-03T08:43:24.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "critical",
+      "views": 381,
+      "forwards": 0
+    },
+    {
+      "id": 17634,
+      "channel": "@OSINTdefender",
+      "text": "#Iran #France #ME\n\nFrance is prepared to assist its partners, particularly Gulf states, if they request help in response to Iranian retaliatory strikes, according to Foreign Minister Jean-Noël Barrot. This support would be in line with international law and the principle of collective self-defense.",
+      "date": "2026-03-03T08:41:41.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "critical",
+      "views": 367,
+      "forwards": 0
+    },
+    {
+      "id": 17633,
+      "channel": "@OSINTdefender",
+      "text": "#Russia \n\nThe Izdeliye-30 is a new Russian air-launched cruise missile with a wingspan of about 3 meters, an 800 kg warhead, and a range of at least 1,500 kilometers. It features a satellite navigation system and was first used against Ukraine at the end of 2025.\n\nSubscribe to @OSINTdefender Chat room",
+      "date": "2026-03-03T08:16:55.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "critical",
+      "views": 387,
+      "forwards": 0
+    },
+    {
+      "id": 17631,
+      "channel": "@OSINTdefender",
+      "text": "#Iran \n\nRecent satellite images confirm significant damage to the Natanz nuclear facility, specifically to two personnel entrance shafts and the sole vehicle access point to the underground enrichment complex. This follows a series of airstrikes targeting Iran's nuclear sites amid ongoing tensions.\n\nSubscribe to @OSINTdefender Chat room",
+      "date": "2026-03-03T06:26:46.000Z",
+      "coords": [
+        33.72,
+        51.73
+      ],
+      "location": "natanz",
+      "severity": "critical",
+      "views": 457,
+      "forwards": 0
+    },
+    {
+      "id": 17630,
+      "channel": "@OSINTdefender",
+      "text": "#ME #China \n\nAir defense troops from a Chinese PLA Army brigade recently conducted a live-fire exercise in collaboration with the PLA Air Force, focusing on air-land confrontational drills in a complex electromagnetic environment. This training aimed to enhance their integrated air-defense capabilities.\n\nSubscribe to @OSINTdefender Chat room",
+      "date": "2026-03-03T06:11:03.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 437,
+      "forwards": 0
+    },
+    {
+      "id": 17629,
+      "channel": "@OSINTdefender",
+      "text": "#ME\n\n...Heavy attacks from forces, which have targeted bunkers and launch sites. The use of advanced drones for surveillance has helped identify and strike these locations effectively.\n\nSubscribe to @OSINTdefender Chat room",
+      "date": "2026-03-03T06:03:44.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "critical",
+      "views": 418,
+      "forwards": 0
+    },
+    {
+      "id": 17628,
+      "channel": "@OSINTdefender",
+      "text": "#USA #ME\n\nVice President JD Vance has stated that even some international organizations, typically critical of the U.S., agree that Iran's construction of underground facilities for highly enriched uranium is primarily aimed at developing nuclear weapons. This concern highlights the ongoing tensions surrounding Iran's nuclear ambitions.\n\nSubscribe to @OSINTdefender Chat room",
+      "date": "2026-03-03T05:50:06.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "high",
+      "views": 422,
+      "forwards": 0
+    },
+    {
+      "id": 17627,
+      "channel": "@OSINTdefender",
+      "text": "#Kuwait \n\nThree U.S. service members were killed when a projectile struck their tactical operations center at the civilian port of Shuaiba in southern Kuwait, which was reportedly fortified but still vulnerable to the attack. This incident marks the first U.S. casualties in the ongoing conflict with Iran.\n\nSubscribe to @OSINTdefender Chat room",
+      "date": "2026-03-03T05:46:15.000Z",
+      "coords": [
+        29.38,
+        47.99
+      ],
+      "location": "kuwait",
+      "severity": "critical",
+      "views": 405,
+      "forwards": 1
+    },
+    {
+      "id": 17626,
+      "channel": "@OSINTdefender",
+      "text": "#Lebanon #Iran #Israel \n\nThe Israel Defense Forces (IDF) are currently conducting simultaneous attacks on targets in both Tehran, Iran, and Beirut, Lebanon, as part of their military operations. This follows recent escalations involving Hezbollah and Iranian missile attacks against Israel.\n\nSubscribe to @OSINTdefender Chat room",
+      "date": "2026-03-03T05:44:34.000Z",
+      "coords": [
+        35.69,
+        51.39
+      ],
+      "location": "tehran",
+      "severity": "critical",
+      "views": 402,
+      "forwards": 0
+    },
+    {
+      "id": 17625,
+      "channel": "@OSINTdefender",
+      "text": "#UK #Cyprus\n\nThe Russian Geran-2 drone, a modified version of the Iranian Shahed-136, has been equipped with advanced technology, including the Kometa-M anti-jamming system, enhancing its effectiveness against Western defenses. This collaboration suggests a transfer of military technology between Russia and Iran, particularly in drone warfare capabilities.\n\nSubscribe to @OSINTdefender Chat room",
+      "date": "2026-03-03T05:28:25.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 423,
+      "forwards": 0
+    },
+    {
+      "id": 17623,
+      "channel": "@OSINTdefender",
+      "text": "#Iraq \n\nThe U.S.-made LUCAS attack drone, which is based on Iran's Shahed design, crashed in Iraq and was recovered mostly intact, revealing its Starlink antenna. This incident highlights the ongoing use and development of drone technology in military operations.\n\nSubscribe to @OSINTdefender Chat room",
+      "date": "2026-03-03T05:19:29.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "critical",
+      "views": 413,
+      "forwards": 2
+    },
+    {
+      "id": 17622,
+      "channel": "@OSINTdefender",
+      "text": "#Jordan \n\nThe U.S. Patriot air defense system mistakenly struck Jordan's Muwaffaq Salti Air Base due to a malfunctioning interceptor missile, which resulted in a local power outage. This incident highlights the potential risks associated with advanced military technology.\n\nSubscribe to @OSINTdefender Chat room",
+      "date": "2026-03-03T05:17:03.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "critical",
+      "views": 437,
+      "forwards": 0
+    },
+    {
+      "id": 17621,
+      "channel": "@OSINTdefender",
+      "text": "#Qatar \n\nThe Qatar Armed Forces have denied reports that their Patriot interceptor missile stockpile is depleted, stating it remains well-stocked.\n\nSubscribe to @OSINTdefender Chat room",
+      "date": "2026-03-03T05:10:55.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "critical",
+      "views": 451,
+      "forwards": 0
+    },
+    {
+      "id": 17620,
+      "channel": "@OSINTdefender",
+      "text": "#ME\n\nPresident Trump recently spoke with Iraqi Kurdish leaders Masoud Barzani and Bafel Talabani to discuss the ongoing U.S.-Israel war with Iran, as Kurdish groups may play a significant role in the conflict. These calls were part of a broader strategy involving regional alliances and military considerations.\n\nSubscribe to @OSINTdefender Chat room",
+      "date": "2026-03-03T05:07:40.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 471,
+      "forwards": 2
+    },
+    {
+      "id": 17619,
+      "channel": "@OSINTdefender",
+      "text": "#ME #USA #SK\n\nThe U.S. is indeed considering relocating its Patriot and THAAD air defense systems, along with other military assets, from South Korea to the Middle East in response to ongoing tensions with Iran. This move aims to bolster defenses in the region amid potential military actions.\n\nSubscribe to @OSINTdefender Chat room",
+      "date": "2026-03-03T05:06:18.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "warning",
+      "views": 468,
+      "forwards": 1
+    },
+    {
+      "id": 17618,
+      "channel": "@OSINTdefender",
+      "text": "#ME\n\nRecent reports indicate that Iranian air defense systems, including those enhanced by Chinese technology, have successfully targeted U.S. and Israeli fighter jets, raising concerns about their effectiveness. The situation highlights vulnerabilities in the advanced radar systems of these aircraft, particularly in the context of electronic warfare capabilities employed by Iran.\n\nSubscribe to @OSINTdefender Chat room",
+      "date": "2026-03-02T19:39:40.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 728,
+      "forwards": 1
+    },
+    {
+      "id": 17617,
+      "channel": "@OSINTdefender",
+      "text": "#USA #China \n\nChina has condemned the U.S. and Israeli attacks on Iran, labeling them as violations of international law and sovereignty. The Chinese government has called for an immediate ceasefire and urged for dialogue to prevent further escalation in the region.\n\nSubscribe to @OSINTdefender Chat room",
+      "date": "2026-03-02T19:36:17.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "critical",
+      "views": 727,
+      "forwards": 0
+    },
+    {
+      "id": 17615,
+      "channel": "@OSINTdefender",
+      "text": "#China #USA\n\nThe U.S. Navy has warned that China's increased submarine production, particularly the new Type 096 submarine, could enable it to target significant areas of the U.S. from its coastal waters. This development raises concerns about China's military capabilities and potential threats to U.S. security.\n\nSubscribe to @OSINTdefender Chat room",
+      "date": "2026-03-02T19:12:34.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 653,
+      "forwards": 2
+    },
+    {
+      "id": 17614,
+      "channel": "@OSINTdefender",
+      "text": "#ME #Ukraine \n\nZelensky has proposed sending Ukraine's drone-defense experts to assist Middle Eastern countries in countering Iranian Shahed drones, contingent upon regional leaders convincing Putin to agree to a short-term ceasefire in Ukraine. This offer highlights Ukraine's expertise in drone interception gained from extensive experience in the ongoing conflict.\n\nSubscribe to @OSINTdefender Chat room",
+      "date": "2026-03-02T18:58:00.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "critical",
+      "views": 627,
+      "forwards": 0
+    },
+    {
+      "id": 17613,
+      "channel": "@OSINTdefender",
+      "text": "#UAE #Qatar \n\nThe UAE and Qatar are enhancing their air defenses in response to Iranian missile and drone attacks, with the UAE looking for medium-range defense systems and Qatar facing a potential shortage of Patriot missiles. This urgent need for support highlights the escalating tensions in the region.\n\nSubscribe to @OSINTdefender Chat room",
+      "date": "2026-03-02T18:51:48.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "critical",
+      "views": 632,
+      "forwards": 0
+    },
+    {
+      "id": 17612,
+      "channel": "@OSINTdefender",
+      "text": "#ME\n\nAn Iranian drone strike on a hotel in Bahrain injured two U.S. Defense Department personnel, prompting the U.S. Embassy to advise Americans to avoid hotels in Manama due to safety concerns. The situation remains tense as further attacks are possible.\n\nSubscribe to @OSINTdefender Chat room",
+      "date": "2026-03-02T18:48:00.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "critical",
+      "views": 640,
+      "forwards": 2
+    },
+    {
+      "id": 17611,
+      "channel": "@OSINTdefender",
+      "text": "#USA #Iran\n\nPresident Trump has stated that the U.S. is actively targeting and destroying Iran's missile capabilities and naval forces, claiming significant progress in these operations. He emphasized that these actions are ongoing and have already resulted in the sinking of multiple Iranian ships.",
+      "date": "2026-03-02T16:56:12.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 662,
+      "forwards": 0
+    },
+    {
+      "id": 4718,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\nIran's Intelligence Minister Esmaeil Khatib has referred to the October 7 attack launched by Hamas against Israel as a \"new historical beginning for the eradication of Israel\", claiming it will lead to the collapse of the entire Israeli government. iranintl.com/en/202310301799\ntweet",
+      "date": "2023-10-31T00:41:11.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "critical",
+      "views": 95597,
+      "forwards": 32
+    },
+    {
+      "id": 4716,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\nRepublican Senator @tedcruz is expected to introduce the Hamas Sanctions Act on Monday afternoon, sanctioning every Hamas member known to the US Treasury Department within two weeks of its passage and freeze Iran’s assets overseas, @FoxNewsDigital has learned.\ntweet",
+      "date": "2023-10-31T00:41:09.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 81263,
+      "forwards": 3
+    },
+    {
+      "id": 4714,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\nIn the upcoming Iranian Parliamentary elections in March, a mere 2 percent of the 24,000 registered candidates are former lawmakers, while just 13 percent are women. iranintl.com/en/202310306531\ntweet",
+      "date": "2023-10-31T00:41:06.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 60182,
+      "forwards": 2
+    },
+    {
+      "id": 4713,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\nUS national security adviser @JakeSullivan46 on Monday met with Saudi Defense Minister and confirmed @POTUS Biden’s commitment to support the defense of US partners against threats from state and non-state actors, including those backed by Iran, the White House said.\ntweet",
+      "date": "2023-10-31T00:41:04.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 49693,
+      "forwards": 2
+    },
+    {
+      "id": 4711,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\n#BREAKING Israel's UN envoy @giladerdan1 told Security Council, \"Ismail Haniyeh is no Adolf Hitler or Führer. He's not the leader of this genocidal death cult hell-bent on world domination. That role is held by Iran's Supreme Leader, the bloodthirsty Ayatollah Khamenei. Just like what Hitler had in mind with his Third Reich, Khamenei envisions his Shiite hegemony to stretch across the region and beyond. The Ayatollah regime is the modern Nazi regime.\"\ntweet",
+      "date": "2023-10-31T00:40:59.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 31363,
+      "forwards": 3
+    },
+    {
+      "id": 4709,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\n#BREAKING Israel's UN envoy @giladerdan1 told Security Council, \"Just like the Nazi regime, the Ayatollah's regime (in Iran) sows death and destruction everywhere it touches. The Islamic Nazi regime of Iran is responsible for aiding terrorists around the globe, and working toward destroying every value the civilized world holds dear. Today the world is watching the rise of a Shiite Islamic Reich. Yet just like the rise of Nazism, the world is deafeningly silent.\"\ntweet",
+      "date": "2023-10-31T00:40:58.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 21503,
+      "forwards": 2
+    },
+    {
+      "id": 4707,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\nIran’s judiciary has urged law enforcers to begin punishment of opponents of compulsory hijab while awaiting the approval of the contentious Chastity and Hijab bill. iranintl.com/en/202310301823\ntweet",
+      "date": "2023-10-30T20:30:35.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 13966,
+      "forwards": 3
+    },
+    {
+      "id": 4706,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\nMahsa Yazdani, the mother of Mohammad Javad Zahedi, one of the victims of Iran’s nationwide protests in 2022, has been sentenced to 13 years in prison on charges of insulting sanctities, endangering state security and insulting Supreme Leader Khamenei. iranintl.com/en/202310304834\ntweet",
+      "date": "2023-10-30T20:30:29.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 12087,
+      "forwards": 1
+    },
+    {
+      "id": 4704,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\nIran's top military commander Mohammad Bagheri has bragged about Hamas tunnels underneath Gaza, saying motorcycles and cars can pass through the tunnels whose one end is inside the Gaza Strip and the other inside the Israeli territory. iranintl.com/en/202310301314\ntweet",
+      "date": "2023-10-30T20:30:23.000Z",
+      "coords": [
+        31.42,
+        34.33
+      ],
+      "location": "gaza",
+      "severity": "info",
+      "views": 37756,
+      "forwards": 0
+    },
+    {
+      "id": 4703,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\nIran's Foreign Minister @Amirabdolahian will once again travel to Doha, Qatar, on Tuesday to discuss the latest developments in Gaza Strip, according to Iranian media reports.\ntweet",
+      "date": "2023-10-30T20:30:14.000Z",
+      "coords": [
+        31.42,
+        34.33
+      ],
+      "location": "gaza",
+      "severity": "info",
+      "views": 38653,
+      "forwards": 0
+    },
+    {
+      "id": 4702,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\nIran's deputy foreign minister @Bagheri_Kani: In a message to Iran on the recent developments, the Americans said they intended to prevent the expansion of the scope of conflict in the region, but they are the one to blame for the war in the region.\ntweet",
+      "date": "2023-10-30T20:30:07.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 17571,
+      "forwards": 0
+    },
+    {
+      "id": 4701,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\n“We’re certainly going to act — if we have to— to continue to protect our troops and our facilities. We have proven that we will strike and act to do that. And that's a strong message that Iran needs to take away. We take those responsibilities seriously,” White House National Security Council spokesman John Kirby said Monday, amid increased Iran-backed attacks against US troops in Iraq and Syria.\n“We also take our national security interest writ large in the region ve",
+      "date": "2023-10-30T20:29:54.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "critical",
+      "views": 8666,
+      "forwards": 0
+    },
+    {
+      "id": 4699,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\nIran’s Foreign Ministry spokesman has rejected the statements made by Western officials about Tehran's involvement in Hamas's attack on Israel, telling @POTUS and @VP “to stop”, repeating a similar request made by US officials to Iran’s regime.\ntweet",
+      "date": "2023-10-30T16:29:32.000Z",
+      "coords": [
+        35.69,
+        51.39
+      ],
+      "location": "tehran",
+      "severity": "critical",
+      "views": 5674,
+      "forwards": 0
+    },
+    {
+      "id": 4698,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\nIn response to growing regional tensions, a US Marine rapid response force stationed on the USS Bataan amphibious assault ship is making its way toward the eastern Mediterranean Sea. iranintl.com/en/202310302750\ntweet",
+      "date": "2023-10-30T16:29:24.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 5273,
+      "forwards": 0
+    },
+    {
+      "id": 4697,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\nCongressman @RepJimBanks: We need to go back to Middle East policies that work.  Congress must restore President Trump’s Max Pressure campaign on Iran!\ntweet",
+      "date": "2023-10-30T16:29:17.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 4759,
+      "forwards": 0
+    },
+    {
+      "id": 4695,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\n#BREAKING Iran-backed militants in Iraq have launched another rocket attack against the US troops stationed in Conoco oil field in the suburbs of Syria's Deir ez-Zor.\ntweet",
+      "date": "2023-10-30T16:29:10.000Z",
+      "coords": [
+        35.34,
+        40.14
+      ],
+      "location": "deir ez-zor",
+      "severity": "critical",
+      "views": 3731,
+      "forwards": 0
+    },
+    {
+      "id": 4694,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\nA young soldier of Iranian origin, Shirel Haeimpour, has been named as the latest victim confirmed dead following the Hamas massacre of October 7 in Israel. iranintl.com/en/202310302366\ntweet",
+      "date": "2023-10-30T16:28:59.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 24951,
+      "forwards": 0
+    },
+    {
+      "id": 4692,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\n#BREAKING US warplanes have targeted the rocket launch sites used by Iran-backed groups in the outskirts of Syria's Deir ez-Zor, @syriahr reported.\n\n#BREAKING Iran-backed militants in Iraq have launched another rocket attack against the US troops stationed in Conoco oil field in the suburbs of Syria's Deir ez-Zor. - Iran International English\ntweet",
+      "date": "2023-10-30T16:28:49.000Z",
+      "coords": [
+        35.34,
+        40.14
+      ],
+      "location": "deir ez-zor",
+      "severity": "critical",
+      "views": 8664,
+      "forwards": 0
+    },
+    {
+      "id": 4691,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\nICYMI: US National Security Advisor Jake Sullivan has blamed the Iranian authorities for the death of 16-year-old teenager Armita Geravand in the hands of hijab enforcers. iranintl.com/en/202310302016\ntweet",
+      "date": "2023-10-30T16:28:28.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 2732,
+      "forwards": 0
+    },
+    {
+      "id": 4690,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\nIran's UN ambassador Saeid Iravani \"emphatically refuted\" his American counterpart @USAmbUN's accusations about the Islamic Republic's presence in Syria, telling a Security Council briefing Iran has \"consistently upheld its commitment to promoting peace & security in the region.\"\nHis comments came after @USAmbUN told the meeting that \"the narrowly-tailored US strikes on Iranian militia sites in eastern Syria on October 27th were in response to repeated attacks on US fo",
+      "date": "2023-10-30T16:27:57.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "critical",
+      "views": 2639,
+      "forwards": 0
+    },
+    {
+      "id": 4688,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\nIranian anti-hijab activist Sepideh Rashno has been sentenced to six months' imprisonment in her latest case amid Iran's hardening hijab laws. iranintl.com/en/202310299299\ntweet",
+      "date": "2023-10-30T12:23:27.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 2536,
+      "forwards": 0
+    },
+    {
+      "id": 4687,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\nThe US House Republican lawmakers introduced by @RepJimBanks are set to push \"the toughest Iran sanctions package ever proposed by Congress\"—legislation that will declare Tehran responsible for Hamas’s war on Israel and divert the Biden admin’s $6 billion ransom payment to Iran into the hands of American terrorism victims, a copy of the bill obtained by @FreeBeacon shows.\ntweet",
+      "date": "2023-10-30T12:23:20.000Z",
+      "coords": [
+        35.69,
+        51.39
+      ],
+      "location": "tehran",
+      "severity": "info",
+      "views": 2463,
+      "forwards": 1
+    },
+    {
+      "id": 4682,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\nCongressman @RepBryanSteil: \"What we are seeing unfold in Israel exposes President Biden’s failed strategy in the Middle East. Now is the time for the administration to change course and deny the Islamic Republic of Iran funds.\"\ntweet",
+      "date": "2023-10-30T04:20:34.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 1642,
+      "forwards": 0
+    },
+    {
+      "id": 4681,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\nIran's Supreme Leader has appointed Parviz Fattah, a heavily sanctioned former IRGC member to head the Execution of Imam Khomeini's Order (EIKO), a vast economic conglomerate under his personal control. iranintl.com/en/202310296623\ntweet",
+      "date": "2023-10-30T04:20:31.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 1596,
+      "forwards": 0
+    },
+    {
+      "id": 4680,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\nAn Iranian Member of Parliament has exposed a widespread campaign of purges, suspensions, and dismissals affecting school administrators across the country. iranintl.com/en/202310295553\ntweet",
+      "date": "2023-10-30T04:20:30.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 1550,
+      "forwards": 0
+    },
+    {
+      "id": 4679,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\n#BREAKING A US warplane has bombed an area close to the city of Bukamal in Syria's Deir ez-Zor, near the Iraqi border, @syriahr reported.\nThe city is home to the positions of Iran-backed militants.\nThe attack came shortly after the Al-Omar oil field which hosts American troops came under attack.\ntweet",
+      "date": "2023-10-30T00:20:20.000Z",
+      "coords": [
+        35.34,
+        40.14
+      ],
+      "location": "deir ez-zor",
+      "severity": "critical",
+      "views": 1501,
+      "forwards": 0
+    },
+    {
+      "id": 4677,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\nYahya Rahim Safavi, a top military advisor to Iran's Supreme Leader Ali Khamenei, has travelled to China to attend the international security forum in Beijing.\nA US delegation led by Pentagon's principal director Cynthia Carras is also attending the event.\ntweet",
+      "date": "2023-10-30T00:20:11.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 1359,
+      "forwards": 0
+    },
+    {
+      "id": 4675,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\nUpdate: Two IRGC positions in the Syrian village of Sokkariyeh near Bukamal have been targeted in the Sunday airstrike, @syriahr reported.\ntweet",
+      "date": "2023-10-30T00:20:08.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "critical",
+      "views": 1266,
+      "forwards": 0
+    },
+    {
+      "id": 4674,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\nBoth the US and Iran say they do not want the Hamas-Israel war to spiral out of control, but Iran roots for the militants and the US is beefing up its military presence in the region. iranintl.com/en/202310293441\ntweet",
+      "date": "2023-10-30T00:20:04.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 1232,
+      "forwards": 0
+    },
+    {
+      "id": 4673,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\nICYMI: The Iranian and Saudi foreign ministers on Sunday underscored \"the pivotal role of the international community in achieving a ceasefire and safeguarding the civilian population, especially in light of the escalation of military operations\" in Gaza. iranintl.com/en/202310290905\ntweet",
+      "date": "2023-10-30T00:20:02.000Z",
+      "coords": [
+        31.42,
+        34.33
+      ],
+      "location": "gaza",
+      "severity": "warning",
+      "views": 1182,
+      "forwards": 0
+    },
+    {
+      "id": 4672,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\nThe Berlin gov't claims Israel’s security is Germany's raison d'etre. For many observers the litmus test for Berlin’s pledge to Israel's security is its policy toward Iran's regime. The question is why hasn’t Germany sanctioned IRGC yet, esp. after Oct. 7? iranintl.com/en/202310294995\ntweet",
+      "date": "2023-10-29T20:19:52.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 1117,
+      "forwards": 0
+    },
+    {
+      "id": 4671,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\nSotoudeh was arrested Sunday on charges of \"violating hijab rules and acting against the psychological security of society\", the IRGC's Fars News reported citing security sources.\n\nThe Islamic Republic's agents have arrested prominent human rights lawyer Nasrin Sotoudeh during the funeral of Armita Geravand, the 16-year-old girl who died after suffering a head injury in an encounter with Tehran's hijab police, Nasrin's husband Reza Khandan announced. \nSotoudeh had earl",
+      "date": "2023-10-29T20:19:45.000Z",
+      "coords": [
+        35.69,
+        51.39
+      ],
+      "location": "tehran",
+      "severity": "info",
+      "views": 1066,
+      "forwards": 0
+    },
+    {
+      "id": 4669,
+      "channel": "@IranIntl_En",
+      "text": "Iran International English\nThe Metropolitan Police Commissioner has admitted that the London's police force has “a gap” in how it deals with Islamic extremism, after tens of thousands of protesters came to the streets of London in Iran-backed rallies calling for ‘Free Palestine’. iranintl.com/en/202310293746\ntweet",
+      "date": "2023-10-29T20:19:43.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 989,
+      "forwards": 0
+    },
+    {
+      "id": 13840,
+      "channel": "@AuroraIntel",
+      "text": "Two distinct AOI’s from last nights airstrike, one area has multiple warehouses, they other is the suspected region from where an air defense battery is positioned. Assume this was struck due to the S-200 exploding over Israel.",
+      "date": "2023-07-02T09:52:49.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "critical",
+      "views": 4045,
+      "forwards": 3
+    },
+    {
+      "id": 13839,
+      "channel": "@AuroraIntel",
+      "text": "During last nights reported airstrike in Syria an Air Defense battery belonging to the Syrian Arab Army was targeted, Russian experts were present and injured in the airstrike according to reports.",
+      "date": "2023-07-02T09:17:45.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "critical",
+      "views": 3570,
+      "forwards": 3
+    },
+    {
+      "id": 13836,
+      "channel": "@AuroraIntel",
+      "text": "Looks like a Syrian S-200 air defense missile special this evening caused the explosion heard over Israel.",
+      "date": "2023-07-01T21:52:39.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "critical",
+      "views": 1789,
+      "forwards": 0
+    },
+    {
+      "id": 13835,
+      "channel": "@AuroraIntel",
+      "text": "Initial reports of air defense activity reported over Homs, Syria",
+      "date": "2023-07-01T21:36:16.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 1919,
+      "forwards": 2
+    },
+    {
+      "id": 13829,
+      "channel": "@AuroraIntel",
+      "text": "⚠️ Confirmed: Metrics show a disruption to government networks in #Lithuania as the National Cyber Security Centre reports a denial-of-service cyberattack affecting secure networks used by state institutions, also affecting public and private internet infrastructure 📉📈 \nlink",
+      "date": "2022-06-27T14:47:09.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "critical",
+      "views": 4089,
+      "forwards": 5
+    },
+    {
+      "id": 13827,
+      "channel": "@AuroraIntel",
+      "text": "Russian cruise missile flying towards Kyiv. 3/ \n\n\nlink",
+      "date": "2022-06-26T04:21:58.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 3153,
+      "forwards": 3
+    },
+    {
+      "id": 13826,
+      "channel": "@AuroraIntel",
+      "text": "Footage of the aftermath of Russian cruise missile strikes on Kyiv this morning. 2/ \n\n\nlink",
+      "date": "2022-06-26T04:21:55.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "critical",
+      "views": 2267,
+      "forwards": 0
+    },
+    {
+      "id": 13819,
+      "channel": "@AuroraIntel",
+      "text": "IRGC intelligence is already working a dream, Israeli telegram and twitter accounts can’t even post a photo of the right guy.\nlink",
+      "date": "2022-06-23T14:46:19.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 1106,
+      "forwards": 1
+    },
+    {
+      "id": 13817,
+      "channel": "@AuroraIntel",
+      "text": "It's official: Mohammad Kazemi has replaced Hossein Taeb as the intelligence chief of the IRGC. \nlink",
+      "date": "2022-06-23T10:52:30.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 1047,
+      "forwards": 1
+    },
+    {
+      "id": 13811,
+      "channel": "@AuroraIntel",
+      "text": "Bottom middle going for the sneaky attack. \nlink",
+      "date": "2022-06-21T07:57:43.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "critical",
+      "views": 699,
+      "forwards": 0
+    },
+    {
+      "id": 13804,
+      "channel": "@AuroraIntel",
+      "text": "Also this isn’t about doubting Iran’s Cyber capabilities, it’s known they are diverse in their capabilities in this area.\nlink",
+      "date": "2022-06-20T06:14:07.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 531,
+      "forwards": 0
+    },
+    {
+      "id": 13802,
+      "channel": "@AuroraIntel",
+      "text": "Interesting one, a lot of assumptions circulating that this was Iran, not sure what benefit it would give them doing this now as it would allow Israel the opportunity to patch the exploit used (if known of course) - psychological sure, but long term beneficial? Possibly not much. \nlink",
+      "date": "2022-06-20T05:55:11.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "info",
+      "views": 509,
+      "forwards": 0
+    },
+    {
+      "id": 13801,
+      "channel": "@AuroraIntel",
+      "text": "Here are 119 interceptions the interception bot detected. I think most of these are good, though I might try to filter out military-on-military and PMC-on-PMC (many of these are civilian jets, often fighters, flown by contractors). \n\n\nlink",
+      "date": "2022-06-19T20:53:01.000Z",
+      "coords": null,
+      "location": null,
+      "severity": "critical",
+      "views": 504,
+      "forwards": 0
+    }
+  ]
+}
