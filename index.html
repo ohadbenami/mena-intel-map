@@ -693,45 +693,60 @@ d.innerHTML=`<div class="attack-date">${a.date}</div><div class="attack-name">${
 d.onclick=()=>selectAttack(a.id);atkList.appendChild(d);});
 
 // ================================================================
-//  ADS-B MILITARY FLIGHT TRACKER
+//  ADS-B MILITARY FLIGHT TRACKER (OpenSky — 60s interval, with cache)
 // ================================================================
+let adsbCache=null,adsbLastOk=0,adsbFails=0;
 async function loadADSB(){
-try{
-const res=await fetch('https://opensky-network.org/api/states/all?lamin=10&lomin=25&lamax=45&lomax=75');
-if(!res.ok)throw new Error(res.status);
-const data=await res.json();if(!data.states)return;
-LG.adsb.clearLayers();
 const flightsDiv=document.getElementById('flights-feed');
+try{
+// Split into 2 smaller bbox requests to reduce load
+const boxes=[
+{la1:20,lo1:25,la2:38,lo2:55}, // West ME (Iraq, Syria, Gulf)
+{la1:25,lo1:45,la2:42,lo2:65}, // East ME (Iran, Afghan)
+];
+let allStates=[];
+for(const b of boxes){
+const res=await fetch(`https://opensky-network.org/api/states/all?lamin=${b.la1}&lomin=${b.lo1}&lamax=${b.la2}&lomax=${b.lo2}`);
+if(!res.ok)continue;
+const data=await res.json();
+if(data.states)allStates.push(...data.states);
+await new Promise(r=>setTimeout(r,1500)); // pace requests
+}
+if(!allStates.length&&adsbCache){allStates=adsbCache;} // use cache
+adsbCache=allStates;adsbLastOk=Date.now();adsbFails=0;
+LG.adsb.clearLayers();
 let milFlights=[];
-data.states.forEach(s=>{
-const cs=(s[1]||'').trim();const lat=s[6];const lng=s[5];const alt=s[7];const vel=s[9];const hdg=s[10];const onGround=s[8];
-if(!lat||!lng||onGround)return;
-const isMil=MIL_CS.some(p=>p.test(cs))||alt>12000;
+allStates.forEach(s=>{
+const cs=(s[1]||'').trim();const lat=s[6];const lng=s[5];const alt=s[7];const vel=s[9];const hdg=s[10];const onG=s[8];
+if(!lat||!lng||onG)return;
+const isMil=MIL_CS.some(p=>p.test(cs))||(alt>13000&&vel>150);
 if(!isMil||!cs)return;
-const rotCss=`transform:rotate(${(hdg||0)-90}deg)`;
-const h=`<div style="color:var(--cyan);font-size:14px;${rotCss};filter:drop-shadow(0 0 4px #00ccff)">✈</div>`;
+const rot=`transform:rotate(${(hdg||0)-90}deg)`;
+const h=`<div style="color:var(--cyan);font-size:14px;${rot};filter:drop-shadow(0 0 4px #00ccff)">✈</div>`;
 const m=L.marker([lat,lng],{icon:L.divIcon({html:h,iconSize:[16,16],iconAnchor:[8,8],className:''})});
 m.bindPopup(`<div class="ptitle" style="color:var(--cyan)">✈️ ${cs}</div>
 <div class="pdet"><b>Alt:</b> ${alt?Math.round(alt*3.281).toLocaleString()+'ft':'?'}</div>
 <div class="pdet"><b>Speed:</b> ${vel?Math.round(vel*1.944)+'kts':'?'}</div>
 <div class="pdet"><b>Heading:</b> ${hdg?Math.round(hdg)+'°':'?'}</div>
 <div class="pdet" style="font-size:9px;color:#4b5563">📍 ${lat.toFixed(3)}, ${lng.toFixed(3)}</div>`);
-LG.adsb.addLayer(m);
-milFlights.push({cs,alt,vel,lat,lng});
-});
+LG.adsb.addLayer(m);milFlights.push({cs,alt,vel,lat,lng,hdg});});
 document.getElementById('st-flights').textContent=milFlights.length;
-// Update flights panel
 if(milFlights.length>0){
-flightsDiv.innerHTML=milFlights.slice(0,25).map(f=>`<div class="flight-item">
+flightsDiv.innerHTML=milFlights.sort((a,b)=>(b.alt||0)-(a.alt||0)).slice(0,30).map(f=>`<div class="flight-item">
 <span class="flight-callsign">${f.cs}</span>
 <span class="flight-alt">${f.alt?Math.round(f.alt*3.281).toLocaleString()+'ft':'-'}</span>
-<span class="flight-info">${f.vel?Math.round(f.vel*1.944)+'kts':''}</span>
+<span class="flight-info">${f.vel?Math.round(f.vel*1.944)+'kts':''} ${f.hdg?Math.round(f.hdg)+'°':''}</span>
 </div>`).join('');
-flightsDiv.innerHTML+=`<div style="text-align:center;padding:6px;color:var(--dim);font-size:9px">${milFlights.length} military aircraft tracked</div>`;
-}else{flightsDiv.innerHTML='<div class="no-alerts">No military flights detected in region<br><span style="font-size:9px">Scanning every 15 seconds...</span></div>';}
-}catch(e){console.warn('ADS-B:',e);
-document.getElementById('flights-feed').innerHTML='<div class="no-alerts">⚠️ OpenSky API unavailable<br><span style="font-size:9px">Rate limited. Retrying...</span></div>';
-}}
+flightsDiv.innerHTML+=`<div style="text-align:center;padding:6px;color:var(--dim);font-size:9px">${milFlights.length} military aircraft • updated ${new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}</div>`;
+}else{flightsDiv.innerHTML='<div class="no-alerts">No military flights detected<br><span style="font-size:9px">Next scan in 60s</span></div>';}
+}catch(e){
+adsbFails++;console.warn('ADS-B:',e);
+const wait=Math.min(adsbFails*30,300);
+if(adsbCache&&adsbCache.length>0){
+flightsDiv.innerHTML=`<div style="text-align:center;padding:10px;color:var(--dim);font-size:10px">✈️ Showing cached data (${adsbCache.length} states)<br><span style="font-size:9px">API cooling down... retry in ${wait}s</span></div>`;
+}else{
+flightsDiv.innerHTML=`<div class="no-alerts">✈️ OpenSky cooling down<br><span style="font-size:9px">Free API = 1 req/min. Retry in ${wait}s</span></div>`;
+}}}
 
 // ================================================================
 //  PIKUD HAOREF — REAL-TIME ALERTS
@@ -924,7 +939,7 @@ feedDiv.prepend(tgSection);
 // ================================================================
 updateClocks();setInterval(updateClocks,10000);
 loadGDELT();setInterval(loadGDELT,300000);
-loadADSB();setInterval(loadADSB,15000);
+loadADSB();setInterval(loadADSB,60000);
 loadAlerts();setInterval(loadAlerts,5000);
 loadBrief();
 loadTelegram();
