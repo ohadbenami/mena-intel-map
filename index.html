@@ -168,7 +168,7 @@ display:flex;align-items:center;font-size:9px;color:var(--dim);flex-shrink:0}
 
 /* ===== ACTIVE TRAJECTORY LEGEND ===== */
 #traj-legend{position:fixed;bottom:80px;right:310px;z-index:998;background:rgba(15,23,42,.92);backdrop-filter:blur(8px);
-border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-size:10px;max-width:220px}
+border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-size:10px;max-width:220px;display:none}
 #traj-legend h4{color:var(--orange);margin-bottom:4px;font-size:10px;display:flex;align-items:center;gap:4px}
 .traj-row{display:flex;align-items:center;gap:6px;margin:3px 0;cursor:pointer;padding:2px;border-radius:3px;transition:background .15s}
 .traj-row:hover{background:rgba(255,255,255,.05)}
@@ -497,15 +497,15 @@ const LAYERS=[
 {id:'nuclear',lbl:'Nuclear Sites',ico:'☢️',clr:'#ff4444',src:'nuclear',on:1},
 {id:'missiles',lbl:'Missile Bases',ico:'🚀',clr:'#ff8800',src:'missiles',on:1},
 {id:'airbases',lbl:'Air Bases (Iran)',ico:'✈️',clr:'#0088ff',src:'airbases',on:1},
-{id:'naval',lbl:'Naval (Iran)',ico:'⚓',clr:'#00ccff',src:'naval',on:1},
-{id:'airdef',lbl:'Air Defense',ico:'🛡️',clr:'#ffcc00',src:'airdef',on:1},
+{id:'naval',lbl:'Naval (Iran)',ico:'⚓',clr:'#00ccff',src:'naval',on:0},
+{id:'airdef',lbl:'Air Defense',ico:'🛡️',clr:'#ffcc00',src:'airdef',on:0},
 {id:'us',lbl:'US/Allied Bases',ico:'🇺🇸',clr:'#00ff88',src:'us',on:1},
 {id:'israel',lbl:'Israel Military',ico:'🇮🇱',clr:'#00aaff',src:'israel',on:1},
-{id:'proxy',lbl:'Proxy Forces',ico:'⚡',clr:'#cc00ff',src:'proxy',on:1},
-{id:'conflicts',lbl:'Conflict Zones',ico:'🔥',clr:'#ff3333',src:'conflicts',on:1},
+{id:'proxy',lbl:'Proxy Forces',ico:'⚡',clr:'#cc00ff',src:'proxy',on:0},
+{id:'conflicts',lbl:'Conflict Zones',ico:'🔥',clr:'#ff3333',src:'conflicts',on:0},
 {id:'ranges',lbl:'Missile Ranges',ico:'🎯',clr:'#ff8800',src:'ranges',on:0},
 {id:'strikes',lbl:'Strikes 25-26',ico:'💥',clr:'#ff0000',src:'strikes26',on:1},
-{id:'trajectories',lbl:'Attack Paths',ico:'➡️',clr:'#ff6600',src:null,on:1},
+{id:'trajectories',lbl:'Attack Paths',ico:'➡️',clr:'#ff6600',src:null,on:0},
 {id:'adsb',lbl:'Military Flights',ico:'✈️',clr:'#00ffcc',src:null,on:1},
 {id:'gdelt',lbl:'Live Events',ico:'📡',clr:'#00ff88',src:null,on:1}
 ];
@@ -536,13 +536,9 @@ Object.values(tiles).forEach(t=>map.removeLayer(t));tiles[b.dataset.s].addTo(map
 // ================================================================
 const LG={},allM=[];
 function mkMarker(it,clr,ico,cat){
-const sz=cat==='nuclear'||cat==='us'?22:18;
-// Nuclear & strike sites get pulsing ring
-const pulse=cat==='nuclear'||cat==='strikes'?
-  `<div style="position:absolute;inset:-6px;border:2px solid ${clr};border-radius:50%;animation:pulse-ring 2s ease-out infinite;opacity:.5"></div>`:'';
-const glow=cat==='nuclear'?'animation:glow-pulse 3s ease-in-out infinite;':'';
-const h=`<div style="position:relative"><div class="mil-marker" style="width:${sz}px;height:${sz}px;background:${clr}22;border-color:${clr};color:${clr};font-size:${sz*.45}px;${glow}">${ico}</div>${pulse}</div>`;
-const m=L.marker([it.lat,it.lng],{icon:L.divIcon({html:h,iconSize:[sz+12,sz+12],iconAnchor:[(sz+12)/2,(sz+12)/2],className:''})});
+const sz=cat==='nuclear'||cat==='us'?20:16;
+const h=`<div class="mil-marker" style="width:${sz}px;height:${sz}px;background:${clr}22;border-color:${clr};color:${clr};font-size:${sz*.45}px">${ico}</div>`;
+const m=L.marker([it.lat,it.lng],{icon:L.divIcon({html:h,iconSize:[sz,sz],iconAnchor:[sz/2,sz/2],className:''})});
 const sc=it.s==='Active'||it.s==='Operational'||it.s==='Deployed'?'#00ff88':it.s==='Damaged'||it.s==='Degraded'?'#ff4444':it.s==='Fortified'||it.s==='Expanding'?'#ffcc00':'#6b7280';
 m.bindPopup(`<div class="ptitle" style="color:${clr}">${ico} ${it.n}</div>
 <div class="pcat" style="background:${clr}22;color:${clr};border:1px solid ${clr}44">${cat}</div>
@@ -557,9 +553,7 @@ if(L_.id==='conflicts'){
 const g=L.layerGroup();
 D.conflicts.forEach(z=>{
 // Pulsing conflict zone
-g.addLayer(L.circle([z.lat,z.lng],{radius:z.r,color:z.c,fillColor:z.c,fillOpacity:.08,weight:1.5,dashArray:'5,5',className:''}));
-// Inner animated pulse
-g.addLayer(L.circle([z.lat,z.lng],{radius:z.r*.6,color:z.c,fillColor:z.c,fillOpacity:.15,weight:0}));
+g.addLayer(L.circle([z.lat,z.lng],{radius:z.r,color:z.c,fillColor:z.c,fillOpacity:.06,weight:1,dashArray:'5,5',className:''}));
 });
 LG.conflicts=g;if(L_.on)g.addTo(map);
 }else if(L_.id==='ranges'){
@@ -570,11 +564,10 @@ LG.ranges=g;if(L_.on)g.addTo(map);
 }else if(L_.id==='strikes'){
 const g=L.layerGroup();
 D.strikes26.forEach(s=>{
-const h=`<div style="position:relative;width:28px;height:28px">
-<div style="position:absolute;inset:0;border:2px solid #ff0000;border-radius:50%;animation:pulse-ring 1.8s ease-out infinite"></div>
-<div style="position:absolute;inset:-4px;border:1px solid #ff000044;border-radius:50%;animation:pulse-ring 2.5s ease-out infinite .5s"></div>
-<div style="position:absolute;inset:4px;background:#ff0000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;animation:beacon 2s infinite">💥</div></div>`;
-g.addLayer(L.marker([s.lat,s.lng],{icon:L.divIcon({html:h,iconSize:[28,28],iconAnchor:[14,14],className:''})})
+const h=`<div style="position:relative;width:18px;height:18px">
+<div style="position:absolute;inset:-3px;border:1.5px solid #ff0000;border-radius:50%;animation:pulse-ring 2.5s ease-out infinite"></div>
+<div style="position:absolute;inset:0;background:#ff0000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px">💥</div></div>`;
+g.addLayer(L.marker([s.lat,s.lng],{icon:L.divIcon({html:h,iconSize:[18,18],iconAnchor:[9,9],className:''})})
 .bindPopup(`<div class="ptitle" style="color:#ff4444">💥 ${s.n}</div><div class="pdet">${s.d}</div><div class="pdet"><b>Date:</b> ${s.dt}</div>`));});
 LG.strikes=g;if(L_.on)g.addTo(map);
 }else if(L_.id==='trajectories'){LG.trajectories=L.layerGroup();if(L_.on)LG.trajectories.addTo(map);
@@ -621,31 +614,21 @@ paths.forEach(p=>{
   <div class="pdet">${atk.desc}</div>`);
   g.addLayer(trail);
 
-  // Launch point marker (small arrow)
-  const launchH=`<div style="width:10px;height:10px;background:${atk.clr};border-radius:50%;opacity:.7;animation:beacon 3s infinite"></div>`;
-  g.addLayer(L.marker(p.from,{icon:L.divIcon({html:launchH,iconSize:[10,10],iconAnchor:[5,5],className:''})}));
+  // Launch point marker (small dot)
+  const launchH=`<div style="width:8px;height:8px;background:${atk.clr};border-radius:50%;opacity:.5"></div>`;
+  g.addLayer(L.marker(p.from,{icon:L.divIcon({html:launchH,iconSize:[8,8],iconAnchor:[4,4],className:''})}));
 
   // Impact point marker — intercepted or hit
   const wasHit=atk.stats.intPct<.5;
   const impIco=wasHit?'💥':'🛡️';
   const impClr=wasHit?'#ff4444':'#00ff88';
-  const impH=`<div style="font-size:14px;filter:drop-shadow(0 0 6px ${impClr});animation:glow-pulse 2s infinite">${impIco}</div>`;
-  const impM=L.marker(p.to,{icon:L.divIcon({html:impH,iconSize:[18,18],iconAnchor:[9,9],className:''})});
+  const impH=`<div style="font-size:12px;filter:drop-shadow(0 0 3px ${impClr})">${impIco}</div>`;
+  const impM=L.marker(p.to,{icon:L.divIcon({html:impH,iconSize:[14,14],iconAnchor:[7,7],className:''})});
   impM.bindPopup(`<div class="ptitle" style="color:${impClr}">${impIco} ${wasHit?'IMPACT':'INTERCEPTED'}</div>
   <div class="pdet"><b>Attack:</b> ${atk.name}</div>
   <div class="pdet"><b>Interception rate:</b> ${atk.stats.intercepted}</div>`);
   g.addLayer(impM);
 });
-
-// Animated "moving dot" along each main path
-const mainPath=paths[0];
-if(mainPath){
-  const pts=bezierPts(mainPath.from,mainPath.to,mainPath.type,100);
-  const dot=L.circleMarker(pts[0],{radius:3,color:atk.clr,fillColor:'#fff',fillOpacity:1,weight:2});
-  g.addLayer(dot);
-  let i=0;
-  setInterval(()=>{i=(i+1)%pts.length;dot.setLatLng(pts[i]);},80);
-}
 
 // Legend row
 const intBg=atk.stats.intPct>.8?'rgba(0,255,136,.15)':atk.stats.intPct>.4?'rgba(255,204,0,.15)':'rgba(255,68,68,.15)';
@@ -774,7 +757,7 @@ if(!lat||!lng||onG)return;
 const isMil=MIL_CS.some(p=>p.test(cs))||(alt>13000&&vel>150);
 if(!isMil||!cs)return;
 const rot=`transform:rotate(${(hdg||0)-90}deg)`;
-const h=`<div style="color:var(--cyan);font-size:16px;${rot};filter:drop-shadow(0 0 6px #00ccff);animation:glow-pulse 2s infinite">✈</div>`;
+const h=`<div style="color:var(--cyan);font-size:14px;${rot};filter:drop-shadow(0 0 3px #00ccff)">✈</div>`;
 const m=L.marker([lat,lng],{icon:L.divIcon({html:h,iconSize:[18,18],iconAnchor:[9,9],className:''})});
 m.bindPopup(`<div class="ptitle" style="color:var(--cyan)">✈️ ${cs}</div>
 <div class="pdet"><b>Alt:</b> ${alt?Math.round(alt*3.281).toLocaleString()+'ft':'?'}</div>
@@ -833,10 +816,8 @@ LG.gdelt.clearLayers();let ec=0;
 gD.features.forEach(f=>{if(!f.geometry?.coordinates)return;
 const[lng,lat]=f.geometry.coordinates;if(lat<5||lat>45||lng<25||lng>75)return;
 const nm=f.properties?.name||'Event';const cnt=f.properties?.count||1;
-const sz=Math.min(4+cnt*2,14);
-// Animated event marker
-const h=`<div style="width:${sz}px;height:${sz}px;background:#00ff88;border-radius:50%;opacity:.6;animation:pulse-threat 2s ease-in-out infinite;box-shadow:0 0 ${sz}px #00ff88"></div>`;
-const m=L.marker([lat,lng],{icon:L.divIcon({html:h,iconSize:[sz,sz],iconAnchor:[sz/2,sz/2],className:''})});
+const sz=Math.min(3+cnt,8);
+const m=L.circleMarker([lat,lng],{radius:sz,color:'#00ff88',fillColor:'#00ff88',fillOpacity:.4,weight:1,opacity:.6});
 m.bindPopup(`<div class="ptitle" style="color:#00ff88">📡 ${nm}</div><div class="pdet">Mentions: ${cnt}</div>`);
 LG.gdelt.addLayer(m);ec++;});
 document.getElementById('st-events').textContent=ec;
@@ -940,12 +921,8 @@ const data=await res.json();if(!data.events?.length)return;
 const tgLayer=LG.gdelt;
 data.events.filter(e=>e.coords).forEach(e=>{
 const sc=e.severity==='critical'?'#ff4444':e.severity==='high'?'#ff8800':e.severity==='warning'?'#ffcc00':'#00ff88';
-// Animated telegram event marker
-const sz=e.severity==='critical'?12:e.severity==='high'?10:7;
-const h=`<div style="position:relative;width:${sz}px;height:${sz}px">
-<div style="position:absolute;inset:0;background:${sc};border-radius:50%;animation:pulse-threat 2s infinite"></div>
-<div style="position:absolute;inset:-4px;border:1px solid ${sc};border-radius:50%;animation:pulse-ring 2.5s infinite"></div></div>`;
-const m=L.marker(e.coords,{icon:L.divIcon({html:h,iconSize:[sz+8,sz+8],iconAnchor:[(sz+8)/2,(sz+8)/2],className:''})});
+const sz=e.severity==='critical'?6:e.severity==='high'?5:4;
+const m=L.circleMarker(e.coords,{radius:sz,color:sc,fillColor:sc,fillOpacity:.5,weight:1.5,opacity:.7});
 m.bindPopup(`<div class="ptitle" style="color:${sc}">📡 ${e.channel}</div>
 <div class="pdet">${e.text.substring(0,200)}...</div>
 <div class="pdet" style="font-size:9px;color:var(--dim)">${e.date?new Date(e.date).toLocaleString('en-GB'):''}</div>
@@ -993,19 +970,6 @@ case'r':case'R':{const i=document.querySelector('[data-l="ranges"]');if(i){i.che
 case'a':case'A':toggleAttack();break;
 case's':case'S':toggleSidebar();break;
 case'Escape':map.closePopup();stopReplay();break;}});
-
-// ================================================================
-//  CONFLICT ZONE PULSE ANIMATION
-// ================================================================
-setInterval(()=>{
-// Animate conflict zone opacity for "breathing" effect
-document.querySelectorAll('.leaflet-interactive').forEach(el=>{
-  if(el.getAttribute('stroke-dasharray')==='5,5'){
-    const op=.08+Math.sin(Date.now()/1000)*.06;
-    el.setAttribute('fill-opacity',op);
-  }
-});
-},100);
 
 // ================================================================
 //  PWA
