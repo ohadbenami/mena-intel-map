@@ -3,8 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MENA OSINT Intelligence Map — V3</title>
-<meta name="description" content="Real-time Middle East military intelligence map with missile tracking, flight radar, and OSINT feeds">
+<title>MENA Intel Map — Live Middle East Intelligence</title>
+<meta name="description" content="Interactive intelligence map of the Middle East. Nuclear sites, missile bases, military flights, and live OSINT — updated in real time.">
+<meta property="og:title" content="MENA Intel Map — Live Middle East Intelligence">
+<meta property="og:description" content="Interactive map tracking Iran's nuclear program, missile arsenals, military flights, and conflict zones in real time.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://ohadbenami.github.io/mena-intel-map/og-image.png">
+<meta property="og:url" content="https://ohadbenami.github.io/mena-intel-map/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛰️</text></svg>">
 <link rel="manifest" id="pwa-manifest">
 <meta name="theme-color" content="#00ff88">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -184,6 +191,80 @@ border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-size:10px
 #splash .loader-bar{height:100%;background:var(--accent);border-radius:2px;animation:load 2s ease-in-out forwards}
 @keyframes load{0%{width:0}100%{width:100%}}
 
+/* ===== GUIDED INTRO ===== */
+#guided-overlay{position:fixed;inset:0;z-index:1900;pointer-events:none;opacity:0;transition:opacity .6s}
+#guided-overlay.active{pointer-events:auto;opacity:1}
+#guided-card{position:fixed;bottom:40px;left:50%;transform:translateX(-50%);z-index:1901;
+background:rgba(15,23,42,.96);backdrop-filter:blur(16px);border:1px solid var(--border);border-radius:14px;
+padding:28px 36px;max-width:520px;width:90%;text-align:center;box-shadow:0 16px 60px rgba(0,0,0,.6)}
+#guided-card h2{font-size:20px;color:var(--accent);margin-bottom:6px;letter-spacing:.5px}
+#guided-card .step-sub{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px}
+#guided-card p{font-size:13px;line-height:1.6;color:var(--text);margin-bottom:18px}
+.guide-dots{display:flex;gap:8px;justify-content:center;margin-bottom:16px}
+.guide-dot{width:8px;height:8px;border-radius:50%;background:var(--border);transition:all .3s}
+.guide-dot.active{background:var(--accent);width:24px;border-radius:4px}
+.guide-btns{display:flex;gap:10px;justify-content:center}
+.guide-btn{padding:8px 22px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text);font-size:12px;font-weight:600;transition:all .2s;letter-spacing:.5px}
+.guide-btn:hover{border-color:var(--accent);color:var(--accent)}
+.guide-btn.primary{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.guide-btn.primary:hover{background:#00dd77}
+.guide-btn.skip{color:var(--dim);border-color:transparent;font-size:11px}
+.guide-btn.skip:hover{color:var(--text)}
+
+/* ===== SITUATION CARD ===== */
+#situation-card{position:fixed;top:52px;left:50%;transform:translateX(-50%);z-index:998;
+background:rgba(15,23,42,.94);backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:10px;
+padding:8px 18px;display:flex;align-items:center;gap:16px;cursor:pointer;transition:all .2s;max-width:600px}
+#situation-card:hover{border-color:var(--accent);background:rgba(15,23,42,.98)}
+.sit-threat{display:flex;align-items:center;gap:6px}
+.sit-threat-dot{width:10px;height:10px;border-radius:50%;animation:pulse-threat 2s infinite}
+.sit-threat-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.sit-divider{width:1px;height:24px;background:var(--border)}
+.sit-stat{display:flex;flex-direction:column;align-items:center}
+.sit-stat-val{font-size:14px;font-weight:700;font-family:'Courier New',monospace}
+.sit-stat-lbl{font-size:8px;text-transform:uppercase;letter-spacing:.5px;color:var(--dim)}
+.sit-latest{font-size:10px;color:var(--dim);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* ===== MODE TOGGLE ===== */
+#mode-toggle{position:fixed;top:52px;right:310px;z-index:999;display:flex;
+background:rgba(15,23,42,.92);backdrop-filter:blur(8px);border:1px solid var(--border);border-radius:8px;padding:2px;gap:1px}
+.mode-btn{padding:5px 14px;border-radius:6px;border:none;background:transparent;color:var(--dim);font-size:10px;
+cursor:pointer;transition:all .15s;font-weight:600;letter-spacing:.5px}
+.mode-btn.active{background:var(--accent);color:var(--bg)}
+.mode-btn:hover:not(.active){color:var(--text)}
+
+/* ===== ABOUT MODAL ===== */
+#about-modal{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);
+display:none;align-items:center;justify-content:center}
+#about-modal.open{display:flex}
+#about-inner{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:32px;
+max-width:520px;width:90%;max-height:80vh;overflow-y:auto;position:relative}
+#about-inner h2{font-size:18px;color:var(--accent);margin-bottom:4px}
+#about-inner h3{font-size:12px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin:16px 0 6px}
+#about-inner p,#about-inner li{font-size:12px;line-height:1.5;color:var(--dim)}
+#about-inner ul{padding-left:16px}
+#about-inner a{color:var(--blue)}
+.about-close{position:absolute;top:12px;right:14px;background:none;border:none;color:var(--dim);font-size:18px;cursor:pointer}
+.about-close:hover{color:var(--text)}
+
+/* ===== KEYBOARD HELP ===== */
+#kb-help{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);
+display:none;align-items:center;justify-content:center}
+#kb-help.open{display:flex}
+#kb-inner{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:28px;
+max-width:400px;width:90%}
+#kb-inner h2{font-size:16px;color:var(--accent);margin-bottom:12px;text-align:center}
+.kb-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);font-size:11px}
+.kb-key{background:rgba(255,255,255,.08);border:1px solid var(--border);border-radius:4px;padding:2px 8px;
+font-family:'Courier New',monospace;font-size:11px;color:var(--accent)}
+.kb-desc{color:var(--dim)}
+
+/* ===== SHARE TOAST ===== */
+#share-toast{position:fixed;bottom:60px;left:50%;transform:translateX(-50%) translateY(20px);
+background:var(--accent);color:var(--bg);padding:8px 20px;border-radius:8px;font-size:12px;font-weight:600;
+opacity:0;transition:all .3s;z-index:2001;pointer-events:none}
+#share-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
 @media(max-width:768px){
 #sidebar{width:250px}
 #attack-panel{width:240px}
@@ -193,6 +274,11 @@ border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-size:10px
 .clock-item{display:none}
 .clock-item:nth-child(-n+3){display:flex}
 #traj-legend{display:none}
+#mode-toggle{right:6px;top:auto;bottom:40px}
+#situation-card{max-width:92%;padding:6px 12px;gap:10px;font-size:9px}
+.sit-latest{display:none}
+#guided-card{padding:20px;max-width:95%}
+#guided-card h2{font-size:16px}
 }
 </style>
 </head>
@@ -205,7 +291,7 @@ border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-size:10px
 </div>
 
 <div id="hud">
-  <div class="logo"><i class="fas fa-satellite-dish"></i> MENA INTEL MAP <span class="v">V3</span></div>
+  <div class="logo"><i class="fas fa-satellite-dish"></i> MENA INTEL MAP <span class="v">V4</span></div>
   <div class="clocks">
     <div class="clock-item"><span class="clock-label">UTC</span><span class="clock-time" id="ck-utc">--:--</span></div>
     <div class="clock-item"><span class="clock-label">Tehran</span><span class="clock-time" id="ck-teh">--:--</span></div>
@@ -217,6 +303,12 @@ border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-size:10px
     <div class="status-dot"></div>
     <span style="font-size:9px;color:var(--dim)" id="live-label">LIVE</span>
     <span class="threat-badge threat-high" id="threat-level">HIGH</span>
+    <button onclick="shareMap()" style="background:none;border:1px solid var(--border);color:var(--dim);border-radius:4px;padding:2px 8px;font-size:10px" title="Share current view">
+      <i class="fas fa-share-alt"></i>
+    </button>
+    <button onclick="toggleAbout()" style="background:none;border:1px solid var(--border);color:var(--dim);border-radius:4px;padding:2px 8px;font-size:10px" title="About">
+      <i class="fas fa-info-circle"></i>
+    </button>
   </div>
 </div>
 
@@ -304,6 +396,82 @@ border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-size:10px
   </div>
   <div id="ticker-count">--</div>
 </div>
+
+<!-- GUIDED INTRO OVERLAY -->
+<div id="guided-overlay">
+  <div id="guided-card">
+    <div class="step-sub" id="guide-step-label">STEP 1 OF 3</div>
+    <h2 id="guide-title">Iran's Nuclear Program</h2>
+    <p id="guide-text">Six known nuclear sites — from underground enrichment at Natanz to the plutonium reactor at Arak. Several were struck in 2025-2026 operations. This map tracks their current status.</p>
+    <div class="guide-dots"><div class="guide-dot active"></div><div class="guide-dot"></div><div class="guide-dot"></div></div>
+    <div class="guide-btns">
+      <button class="guide-btn skip" onclick="skipGuide()">Skip tour</button>
+      <button class="guide-btn primary" id="guide-next" onclick="nextGuideStep()">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- SITUATION CARD -->
+<div id="situation-card" onclick="document.querySelector('[data-tab=&quot;brief&quot;]').click();" title="Click for full intelligence brief">
+  <div class="sit-threat">
+    <div class="sit-threat-dot" id="sit-dot" style="background:var(--orange)"></div>
+    <div class="sit-threat-label" id="sit-level" style="color:var(--orange)">HIGH</div>
+  </div>
+  <div class="sit-divider"></div>
+  <div class="sit-stat"><div class="sit-stat-val" style="color:var(--cyan)" id="sit-flights">--</div><div class="sit-stat-lbl">Flights</div></div>
+  <div class="sit-stat"><div class="sit-stat-val" style="color:var(--accent)" id="sit-events">--</div><div class="sit-stat-lbl">Events</div></div>
+  <div class="sit-divider"></div>
+  <div class="sit-latest" id="sit-latest">Loading latest event...</div>
+</div>
+
+<!-- MODE TOGGLE -->
+<div id="mode-toggle">
+  <button class="mode-btn active" data-mode="overview" onclick="setMode('overview')">Overview</button>
+  <button class="mode-btn" data-mode="analyst" onclick="setMode('analyst')">Analyst</button>
+</div>
+
+<!-- ABOUT MODAL -->
+<div id="about-modal">
+  <div id="about-inner">
+    <button class="about-close" onclick="toggleAbout()">&times;</button>
+    <h2><i class="fas fa-satellite-dish"></i> MENA Intel Map</h2>
+    <p style="color:var(--dim);font-size:11px;margin-bottom:12px">Real-time open-source intelligence map of the Middle East</p>
+    <h3>What is this?</h3>
+    <p>An interactive map tracking military installations, missile programs, conflict zones, and live events across the Middle East. All data comes from publicly available open sources (OSINT).</p>
+    <h3>Data Sources</h3>
+    <ul>
+      <li><b>Military positions</b> — Compiled from satellite imagery analysis, defense publications, and OSINT reports</li>
+      <li><b>Live flights</b> — OpenSky Network ADS-B transponder data</li>
+      <li><b>News events</b> — GDELT Project global event database</li>
+      <li><b>Alerts</b> — Pikud HaOref (Israel Home Front Command) API</li>
+      <li><b>OSINT feeds</b> — Telegram channels monitoring (when available)</li>
+    </ul>
+    <h3>Disclaimer</h3>
+    <p>This is an educational tool. Military positions are approximate. Some installations may be relocated or decommissioned. Live data depends on third-party API availability. This map does not represent classified intelligence.</p>
+    <h3>Keyboard Shortcuts</h3>
+    <p>Press <span class="kb-key">?</span> to see all keyboard shortcuts.</p>
+    <p style="text-align:center;margin-top:16px;font-size:10px;color:var(--dim)">Built with Leaflet.js • Open source</p>
+  </div>
+</div>
+
+<!-- KEYBOARD HELP -->
+<div id="kb-help">
+  <div id="kb-inner">
+    <h2>Keyboard Shortcuts</h2>
+    <div class="kb-row"><span class="kb-key">1-5</span><span class="kb-desc">Quick fly to region</span></div>
+    <div class="kb-row"><span class="kb-key">R</span><span class="kb-desc">Toggle missile ranges</span></div>
+    <div class="kb-row"><span class="kb-key">A</span><span class="kb-desc">Attack replay panel</span></div>
+    <div class="kb-row"><span class="kb-key">S</span><span class="kb-desc">Toggle sidebar</span></div>
+    <div class="kb-row"><span class="kb-key">M</span><span class="kb-desc">Switch Overview / Analyst mode</span></div>
+    <div class="kb-row"><span class="kb-key">?</span><span class="kb-desc">This help screen</span></div>
+    <div class="kb-row"><span class="kb-key">Esc</span><span class="kb-desc">Close popup / stop replay</span></div>
+    <div class="kb-row"><span class="kb-key">Right-click</span><span class="kb-desc">Measure distance</span></div>
+    <div style="text-align:center;margin-top:14px"><button class="guide-btn" onclick="toggleKbHelp()" style="font-size:11px">Close</button></div>
+  </div>
+</div>
+
+<!-- SHARE TOAST -->
+<div id="share-toast">Link copied to clipboard!</div>
 
 <div id="map"></div>
 
@@ -945,6 +1113,185 @@ feedDiv.prepend(tgSection);
 }catch(e){}}
 
 // ================================================================
+//  GUIDED TOUR
+// ================================================================
+const GUIDE_STEPS=[
+{title:"Iran's Nuclear Program",sub:"STEP 1 OF 3",
+text:"Six known nuclear sites — from underground enrichment at Natanz to the plutonium reactor at Arak. Several were struck in 2025–2026 operations. This map tracks their current status.",
+action:()=>{map.flyTo([33,51.5],7,{duration:1.8});
+['nuclear','strikes'].forEach(id=>{const i=document.querySelector(`[data-l="${id}"]`);if(i&&!i.checked){i.checked=true;i.dispatchEvent(new Event('change'));}});
+}},
+{title:"Missile Ranges",sub:"STEP 2 OF 3",
+text:"Iran operates the largest ballistic missile arsenal in the Middle East — from the 1,300 km Shahab-3 to the 3,000 km Khorramshahr-4. Toggle ranges to see what's within reach.",
+action:()=>{map.flyTo([32,50],5,{duration:1.8});
+const i=document.querySelector('[data-l="ranges"]');if(i&&!i.checked){i.checked=true;i.dispatchEvent(new Event('change'));}
+}},
+{title:"The Attacks",sub:"STEP 3 OF 3",
+text:"From Iran's True Promise salvos to the US-Israel strikes of 2025–2026 — replay every major attack with real trajectories. Open the Attack Replay panel to watch them unfold.",
+action:()=>{map.flyTo([31.5,43],5,{duration:1.8});
+const i=document.querySelector('[data-l="trajectories"]');if(i&&!i.checked){i.checked=true;i.dispatchEvent(new Event('change'));}
+}}
+];
+let guideStep=0;
+function showGuide(){
+if(localStorage.getItem('mena-guided-done'))return;
+const ov=document.getElementById('guided-overlay');ov.classList.add('active');
+renderGuideStep();
+}
+function renderGuideStep(){
+const s=GUIDE_STEPS[guideStep];
+document.getElementById('guide-title').textContent=s.title;
+document.getElementById('guide-step-label').textContent=s.sub;
+document.getElementById('guide-text').textContent=s.text;
+document.querySelectorAll('.guide-dot').forEach((d,i)=>d.classList.toggle('active',i===guideStep));
+document.getElementById('guide-next').textContent=guideStep<GUIDE_STEPS.length-1?'Next →':'Explore the map';
+s.action();
+}
+function nextGuideStep(){
+guideStep++;
+if(guideStep>=GUIDE_STEPS.length){finishGuide();return;}
+renderGuideStep();
+}
+function skipGuide(){finishGuide();}
+function finishGuide(){
+localStorage.setItem('mena-guided-done','1');
+const ov=document.getElementById('guided-overlay');ov.style.opacity='0';
+setTimeout(()=>{ov.remove();},600);
+map.flyTo([30,48],5,{duration:1.5});
+// Reset ranges layer off after tour
+const ri=document.querySelector('[data-l="ranges"]');if(ri&&ri.checked){ri.checked=false;ri.dispatchEvent(new Event('change'));}
+}
+
+// ================================================================
+//  MODE TOGGLE (Overview ↔ Analyst)
+// ================================================================
+let currentMode='overview';
+const OVERVIEW_LAYERS=['nuclear','us','strikes','adsb','gdelt'];
+const ANALYST_LAYERS=LAYERS.map(l=>l.id);
+
+function setMode(mode){
+currentMode=mode;
+document.querySelectorAll('.mode-btn').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));
+if(mode==='overview'){
+  // Hide advanced panels
+  document.getElementById('attack-panel').classList.remove('open');
+  document.getElementById('attack-toggle').classList.remove('open');
+  document.getElementById('attack-toggle').style.display='none';
+  document.getElementById('range-legend').style.display='none';
+  document.getElementById('traj-legend').style.display='none';
+  document.getElementById('stats-panel').style.display='none';
+  document.getElementById('situation-card').style.display='flex';
+  // Show only overview layers
+  LAYERS.forEach(L_=>{
+    const chk=document.querySelector(`[data-l="${L_.id}"]`);if(!chk)return;
+    const shouldBeOn=OVERVIEW_LAYERS.includes(L_.id);
+    if(chk.checked!==shouldBeOn){chk.checked=shouldBeOn;chk.dispatchEvent(new Event('change'));}
+  });
+}else{
+  // Analyst mode: show everything
+  document.getElementById('attack-toggle').style.display='flex';
+  document.getElementById('stats-panel').style.display='flex';
+  document.getElementById('situation-card').style.display='flex';
+  // Turn on all layers that were default-on
+  LAYERS.forEach(L_=>{
+    const chk=document.querySelector(`[data-l="${L_.id}"]`);if(!chk)return;
+    if(L_.on&&!chk.checked){chk.checked=true;chk.dispatchEvent(new Event('change'));}
+  });
+}
+updateHash();
+}
+
+// ================================================================
+//  SHARE / URL HASH STATE
+// ================================================================
+function updateHash(){
+const c=map.getCenter();const z=map.getZoom();
+const hash=`${c.lat.toFixed(2)},${c.lng.toFixed(2)},${z},${currentMode}`;
+history.replaceState(null,null,'#'+hash);
+}
+function loadHash(){
+const h=location.hash.replace('#','');if(!h)return false;
+const parts=h.split(',');if(parts.length<3)return false;
+const lat=parseFloat(parts[0]),lng=parseFloat(parts[1]),z=parseInt(parts[2]);
+if(isNaN(lat)||isNaN(lng)||isNaN(z))return false;
+map.setView([lat,lng],z);
+if(parts[3]==='analyst')setMode('analyst');
+return true;
+}
+function shareMap(){
+const c=map.getCenter();const z=map.getZoom();
+const url=`${location.origin}${location.pathname}#${c.lat.toFixed(2)},${c.lng.toFixed(2)},${z},${currentMode}`;
+navigator.clipboard.writeText(url).then(()=>{
+  const toast=document.getElementById('share-toast');toast.classList.add('show');
+  setTimeout(()=>toast.classList.remove('show'),2000);
+}).catch(()=>{prompt('Copy this link:',url);});
+}
+map.on('moveend',updateHash);
+
+// ================================================================
+//  ABOUT MODAL + KEYBOARD HELP
+// ================================================================
+function toggleAbout(){document.getElementById('about-modal').classList.toggle('open');}
+function toggleKbHelp(){document.getElementById('kb-help').classList.toggle('open');}
+
+// ================================================================
+//  SITUATION CARD UPDATE
+// ================================================================
+let latestEvent='';
+function updateSitCard(){
+document.getElementById('sit-flights').textContent=document.getElementById('st-flights').textContent;
+document.getElementById('sit-events').textContent=document.getElementById('st-events').textContent;
+if(latestEvent)document.getElementById('sit-latest').textContent=latestEvent;
+}
+
+// ================================================================
+//  ENHANCED POPUPS (Overview vs Analyst)
+// ================================================================
+const WHY_IT_MATTERS={
+nuclear:{
+"Natanz":"Iran's primary enrichment site. If reactivated, it could produce weapons-grade uranium within months.",
+"Fordow":"Built inside a mountain to survive airstrikes. Its survival is key to Iran's nuclear ambitions.",
+"Bushehr NPP":"Civilian reactor — but its spent fuel could theoretically be reprocessed for plutonium.",
+"Isfahan UCF":"Converts raw uranium into gas for centrifuges. A bottleneck in the enrichment pipeline.",
+"Arak IR-40":"Was redesigned under the 2015 deal, but could be reverted to produce plutonium.",
+"Parchin":"Suspected site for testing nuclear weapon components — the most opaque of all sites."
+},
+us:{
+"Al Udeid":"America's largest Middle East base. Hosts the combined air operations center that coordinates all regional air campaigns.",
+"Al Dhafra":"Home to F-22s and Global Hawks. The tip of the US intelligence-gathering spear in the Gulf.",
+"Camp Arifjan":"13,000+ troops. The logistics backbone for any major US ground operation in the region.",
+"NSA Bahrain":"5th Fleet headquarters. Controls all US naval operations in the Persian Gulf and Arabian Sea.",
+"Incirlik":"Hosts US nuclear weapons under NATO sharing. A critical base for operations toward Iran or Russia.",
+"Al Tanf":"Blocks Iran's land bridge from Tehran to Beirut. A small base with outsized strategic importance."
+}};
+
+function getEnhancedPopup(it,clr,ico,cat){
+const sc=it.s==='Active'||it.s==='Operational'||it.s==='Deployed'?'#00ff88':it.s==='Damaged'||it.s==='Degraded'?'#ff4444':it.s==='Fortified'||it.s==='Expanding'?'#ffcc00':'#6b7280';
+if(currentMode==='overview'&&WHY_IT_MATTERS[cat]?.[it.n]){
+  return `<div class="ptitle" style="color:${clr}">${ico} ${it.n}</div>
+  <div class="pcat" style="background:${clr}22;color:${clr};border:1px solid ${clr}44">${cat}</div>
+  <div class="pdet"><b>Status:</b> <span style="color:${sc}">${it.s||'?'}</span></div>
+  <div class="pdet" style="margin-top:6px;color:var(--text);font-size:11px;line-height:1.5;border-left:2px solid ${clr};padding-left:8px">${WHY_IT_MATTERS[cat][it.n]}</div>`;
+}
+// Default (Analyst mode or no enhanced text)
+return `<div class="ptitle" style="color:${clr}">${ico} ${it.n}</div>
+<div class="pcat" style="background:${clr}22;color:${clr};border:1px solid ${clr}44">${cat}</div>
+${it.c?`<div class="pdet"><b>Country:</b> ${it.c}</div>`:''}
+<div class="pdet"><b>Status:</b> <span style="color:${sc}">${it.s||'?'}</span></div>
+<div class="pdet">${it.d}</div>${it.x?`<div class="pdet" style="color:#9ca3af;font-style:italic">${it.x}</div>`:''}
+<div class="pdet" style="color:#4b5563;font-size:9px;margin-top:4px">📍 ${it.lat.toFixed(3)}°N, ${it.lng.toFixed(3)}°E</div>`;
+}
+
+// Rebind popups dynamically on mode change
+function rebindPopups(){
+allM.forEach(({m,it,lid})=>{
+  const L_=LAYERS.find(l=>l.id===lid);if(!L_)return;
+  m.unbindPopup();
+  m.bindPopup(getEnhancedPopup(it,L_.clr,L_.ico,lid),{maxWidth:300});
+});
+}
+
+// ================================================================
 //  UI HELPERS
 // ================================================================
 function flyTo(a,b,z){map.flyTo([a,b],z,{duration:1.2});}
@@ -969,7 +1316,15 @@ case'5':flyTo(15.37,44.19,7);break;
 case'r':case'R':{const i=document.querySelector('[data-l="ranges"]');if(i){i.checked=!i.checked;i.dispatchEvent(new Event('change'));}break;}
 case'a':case'A':toggleAttack();break;
 case's':case'S':toggleSidebar();break;
-case'Escape':map.closePopup();stopReplay();break;}});
+case'm':case'M':setMode(currentMode==='overview'?'analyst':'overview');break;
+case'?':toggleKbHelp();break;
+case'Escape':map.closePopup();stopReplay();
+  document.getElementById('about-modal').classList.remove('open');
+  document.getElementById('kb-help').classList.remove('open');break;}});
+
+// Close modals on backdrop click
+document.getElementById('about-modal').addEventListener('click',e=>{if(e.target===e.currentTarget)toggleAbout();});
+document.getElementById('kb-help').addEventListener('click',e=>{if(e.target===e.currentTarget)toggleKbHelp();});
 
 // ================================================================
 //  PWA
@@ -995,11 +1350,34 @@ loadADSB();setInterval(loadADSB,60000);
 loadAlerts();setInterval(loadAlerts,5000);
 loadBrief();
 loadTelegram();
+setInterval(updateSitCard,5000);
+
+// Hook ticker to update situation card latest event
+const origAddTickerItem=addTickerItem;
+// (Already handled by latestEvent variable set in addTickerItem)
+
+// Override addTickerItem to capture latest
+(function(){
+const _orig=window.addTickerItem;
+// We can't easily override since it's declared with let-scoped refs, so instead we patch via interval
+})();
+// Simple: update latestEvent from ticker items
+setInterval(()=>{if(tickerItems.length>0)latestEvent=tickerItems[tickerItems.length-1].text;},3000);
+
+// Check for URL hash (shared link)
+const hasHash=loadHash();
 
 // Splash & intro
 setTimeout(()=>{document.getElementById('splash').classList.add('gone');
 setTimeout(()=>document.getElementById('splash').remove(),800);
-map.flyTo([33,50],6,{duration:2});},2200);
+if(!hasHash){
+  // Show guided tour for new visitors, or just fly in
+  setTimeout(()=>showGuide(),500);
+  if(localStorage.getItem('mena-guided-done')){map.flyTo([30,48],5,{duration:2});}
+}
+// Start in Overview mode (hide stats-panel, show situation card)
+setMode('overview');
+},2200);
 </script>
 </body>
 </html>
