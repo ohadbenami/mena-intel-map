@@ -1,0 +1,36 @@
+{
+  "date": "2026-03-03",
+  "threat_level": "HIGH",
+  "threat_color": "#ff8800",
+  "summary": "Middle East tensions remain elevated following the February 28 US-Israel coordinated strikes on Iranian nuclear and military infrastructure in Tehran, Isfahan, and Tabriz. Iran has begun repositioning S-300 air defense systems and rebuilding damaged facilities. Houthi anti-shipping campaign in the Red Sea continues with daily drone and missile attacks on commercial vessels.",
+  "key_developments": [
+    {"title": "Iran Rebuilds Nuclear Sites", "detail": "Satellite imagery shows construction activity at Natanz and Fordow, with concrete sarcophagi being built over tunnel entrances. Iran accelerating enrichment at undamaged facilities.", "region": "Iran", "severity": "critical"},
+    {"title": "S-300 Repositioning Around Tehran", "detail": "Iran has repositioned S-300PMU-2 batteries to new locations north and east of Tehran, though fire-control radars have not been confirmed at co-located positions.", "region": "Tehran, Iran", "severity": "high"},
+    {"title": "Houthi Red Sea Attacks Continue", "detail": "Ansar Allah forces launched 3 anti-ship ballistic missiles and 5 drones targeting commercial shipping in the southern Red Sea and Bab el-Mandeb strait in the past 48 hours.", "region": "Red Sea / Yemen", "severity": "high"},
+    {"title": "IRGC Proxy Activations in Iraq", "detail": "Kata'ib Hezbollah and allied militias conducted rocket attacks on US positions at Al-Asad and Erbil air bases. No US casualties reported.", "region": "Iraq", "severity": "medium"},
+    {"title": "Lebanon Ceasefire Holds", "detail": "The Israel-Hezbollah ceasefire continues to hold despite sporadic violations. IDF maintaining enhanced presence along the Blue Line.", "region": "Lebanon", "severity": "medium"}
+  ],
+  "watch_items": [
+    "Iranian IRGC Navy exercises in Strait of Hormuz scheduled for this week",
+    "IAEA inspectors seeking access to rebuilt Natanz centrifuge halls",
+    "US carrier strike group USS Eisenhower repositioning in Arabian Sea",
+    "Potential Houthi escalation targeting Israeli port of Eilat",
+    "Iraqi parliament vote on US military presence"
+  ],
+  "iran_focus": {
+    "nuclear_status": "Post-strike assessment indicates 60-70% of known enrichment capacity damaged. Iran reportedly accelerating enrichment at undisclosed sites. Breakout time estimate remains contested: US intelligence says 2-3 months, Israeli estimates shorter.",
+    "military_activity": "IRGC conducting air defense reconstitution. Mobile TEL launchers dispersed to new locations. Shahrud missile base showing increased activity on satellite imagery. Naval forces on heightened alert in Hormuz.",
+    "proxy_activity": "Hezbollah maintaining ceasefire but intelligence indicates continued weapons transfers via Syria. Houthis most active proxy with near-daily attacks. Iraqi PMF escalating against US targets. Hamas severely degraded but remnants active in northern Gaza."
+  },
+  "hotspots": [
+    {"name": "Strait of Hormuz", "events": 12, "trend": "escalating"},
+    {"name": "Red Sea / Bab el-Mandeb", "events": 18, "trend": "escalating"},
+    {"name": "Tehran Region", "events": 8, "trend": "stable"},
+    {"name": "Iraq (Anbar/Kurdistan)", "events": 6, "trend": "escalating"},
+    {"name": "Gaza Strip", "events": 15, "trend": "de-escalating"}
+  ],
+  "analyst_note": "Iran's measured response to February strikes suggests preference for proxy retaliation over direct confrontation. Primary risk vector remains Houthi escalation in Red Sea and potential IRGC Navy provocations in Hormuz. Watch for Iranian nuclear breakout indicators as diplomatic window narrows.",
+  "generated_at": "2026-03-03T07:00:00.000Z",
+  "source": "Claude AI Analysis (seed brief)",
+  "articles": []
+}
